@@ -1,0 +1,42 @@
+<html>
+<head>
+  <title>Sticky Header Sandbox</title>
+  <link rel="stylesheet" href="../src/jquery.sticky-header.css">
+</head>
+<body>
+
+  <div class="sticky-header">
+    <div class="left">left</div>
+    <div class="center">center</div>
+    <div class="right">right</div>
+  </div>
+
+  <div id="container"></div>
+
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../src/jquery.sticky-header.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      var ipsum =
+        "Bacon ipsum dolor amet tongue pork tenderloin pork belly cow. Pancetta pork chop beef shoulder. Cow short ribs doner fatback." +
+        "Boudin short ribs jerky ham hock capicola prosciutto tri-tip. Kielbasa picanha pork loin meatloaf tongue alcatra hamburger brisket" +
+        "filet mignon turducken shank short loin landjaeger beef ribs. Leberkas ground round meatloaf shankle fatback short ribs turducken." +
+        "Fatback prosciutto cow tri-tip, leberkas drumstick turducken spare ribs pork.";
+
+        for(var i = 0; i < 10; i++) {
+          $("#container").prepend("<p>" + ipsum + "</p>");
+        }
+
+        for(var i = 0; i < 5; i++) {
+            $("#container").append("<p>" + ipsum + "</p>");
+            $("#container").append("<button class='sticky' id='" + i + "'>Button #" + i + "</button");
+        }
+
+        for(var i = 0; i < 50; i++) {
+          $("#container").append("<p>" + ipsum + "</p>");
+        }
+    });
+  </script>
+</body>
+</html>
