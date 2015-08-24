@@ -24,13 +24,36 @@
         "filet mignon turducken shank short loin landjaeger beef ribs. Leberkas ground round meatloaf shankle fatback short ribs turducken." +
         "Fatback prosciutto cow tri-tip, leberkas drumstick turducken spare ribs pork.";
 
+      var configurations = [
+        {
+          title: "Title one",
+          position: "L"
+        },
+        {
+          title: "Title Two",
+          position: "C"
+        },
+        {
+          title: "Title Three",
+          position: "R"
+        },
+        {
+          title: "Title Four",
+          position: "L"
+        },
+        {
+          title: "Title Five",
+          position: "C"
+        }
+      ];
+
         for(var i = 0; i < 10; i++) {
           $("#container").prepend("<p>" + ipsum + "</p>");
         }
 
-        for(var i = 0; i < 5; i++) {
+        for(var i = 0; i < 5; i++) {console.log(configurations[i]);
             $("#container").append("<p>" + ipsum + "</p>");
-            $("#container").append("<button class='sticky' id='" + i + "'>Button #" + i + "</button");
+            $("#container").append("<button class='sticky' id='" + i + "' options='" + JSON.stringify(configurations[i]) + "'>Button #" + i + "</button");
         }
 
         for(var i = 0; i < 50; i++) {

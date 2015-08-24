@@ -23,3 +23,8 @@
 .sticky-header .right {
   background-color: #D17873;
 }
+
+.sticky {
+  height: 75px;
+  width: 150px;
+}
