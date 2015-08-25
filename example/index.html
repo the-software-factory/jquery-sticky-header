@@ -6,9 +6,9 @@
 <body>
 
   <div class="sticky-header">
-    <div class="left">left</div>
-    <div class="center">center</div>
-    <div class="right">right</div>
+    <div class="left"></div>
+    <div class="center"></div>
+    <div class="right"></div>
   </div>
 
   <div id="container"></div>
@@ -17,49 +17,55 @@
   <script src="../src/jquery.sticky-header.js"></script>
 
   <script type="text/javascript">
-    $(function() {
-      var ipsum =
-        "Bacon ipsum dolor amet tongue pork tenderloin pork belly cow. Pancetta pork chop beef shoulder. Cow short ribs doner fatback." +
-        "Boudin short ribs jerky ham hock capicola prosciutto tri-tip. Kielbasa picanha pork loin meatloaf tongue alcatra hamburger brisket" +
-        "filet mignon turducken shank short loin landjaeger beef ribs. Leberkas ground round meatloaf shankle fatback short ribs turducken." +
-        "Fatback prosciutto cow tri-tip, leberkas drumstick turducken spare ribs pork.";
+  $(function() {
+    var ipsum =
+    "Bacon ipsum dolor amet tongue pork tenderloin pork belly cow. Pancetta pork chop beef shoulder. Cow short ribs doner fatback." +
+    "Boudin short ribs jerky ham hock capicola prosciutto tri-tip. Kielbasa picanha pork loin meatloaf tongue alcatra hamburger brisket" +
+    "filet mignon turducken shank short loin landjaeger beef ribs. Leberkas ground round meatloaf shankle fatback short ribs turducken." +
+    "Fatback prosciutto cow tri-tip, leberkas drumstick turducken spare ribs pork.";
 
-      var configurations = [
-        {
-          title: "Title one",
-          position: "L"
-        },
-        {
-          title: "Title Two",
-          position: "C"
-        },
-        {
-          title: "Title Three",
-          position: "R"
-        },
-        {
-          title: "Title Four",
-          position: "L"
-        },
-        {
-          title: "Title Five",
-          position: "C"
-        }
-      ];
+    var configurations = [
+      {
+        position: 'L',
+        html: '<a href=\'http://google.com\'><img src=\'https://code.google.com/p/google-enterprise-connector-dctm/logo?cct=1429927378\'></a>'
+      },
+      {
+        position: 'C',
+        html: '<span style=\'padding: 5px; border: 3px solid #1B6882\'>FooBar</span>'
+      },
+      {
+        position: 'R',
+        html: '<span>Title Three</span>'
+      },
+      {
+        position: 'L',
+        html: '<span>Title Four</span>'
+      },
+      {
+        position: 'C',
+        html: '<span>Title Five</span>'
+      },
+      {
+        position: 'R',
+        html: '<span>Title Six</span>'
+      }
+    ];
 
-        for(var i = 0; i < 10; i++) {
-          $("#container").prepend("<p>" + ipsum + "</p>");
-        }
+    configurations.forEach(function(conf, i) {
+      $("#container").append("<p>" + ipsum + "</p>");
 
-        for(var i = 0; i < 5; i++) {console.log(configurations[i]);
-            $("#container").append("<p>" + ipsum + "</p>");
-            $("#container").append("<button class='sticky' id='" + i + "' options='" + JSON.stringify(configurations[i]) + "'>Button #" + i + "</button");
-        }
-
-        for(var i = 0; i < 50; i++) {
-          $("#container").append("<p>" + ipsum + "</p>");
-        }
+      $("#container")
+      .append("<button>Button #" + i + "</button>")
+      .find("button")
+      .addClass("sticky")
+      .attr("id", i)
+      .attr("options", JSON.stringify(conf));
     });
+
+    for(var i = 0; i < 50; i++) {
+      $("#container").append("<p>" + ipsum + "</p>");
+    }
+  });
   </script>
 </body>
 </html>

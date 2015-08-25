@@ -12,16 +12,39 @@
   width: 33.333333%;
 }
 
-.sticky-header .left {
+.sticky-header > .left {
   background-color: #90C3D4;
+  width: 33.33333%
 }
 
-.sticky-header .center {
+.sticky-header > .left > div {
+  float: left;
+}
+
+.sticky-header > .center {
   background-color: #A7D18C;
+  width: 33.33333%;
+  text-align: center;
 }
 
-.sticky-header .right {
+.sticky-header > .center > .header-item {
+  display: inline-block;
+}
+
+.sticky-header > .right {
   background-color: #D17873;
+  width: 33.33333%
+}
+
+.sticky-header > .right > div {
+  float: right;
+}
+
+.sticky-header .header-item {
+  margin: 5px;
+  padding: 5px;
+  border: 2px solid black;
+  width: 75px;
 }
 
 .sticky {

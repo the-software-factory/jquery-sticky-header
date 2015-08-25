@@ -6,7 +6,7 @@ $(function() {
 
     $(window).scroll(function() {
 
-      if(header.find("> .left > div").length === 0) {
+      if(header.find(".header-item").length === 0) {
         header.hide();
       }
       else {
@@ -29,6 +29,8 @@ $(function() {
 
       function addToHeader(item) {
         var options = JSON.parse($(item).attr("options"));
+        var position = options.position;
+        var html = options.html || $(item).clone().html();
         var slot = header.find(".left");
 
         if (options.position === "L") {
@@ -40,15 +42,16 @@ $(function() {
         else if(options.position === "R") {
           slot = header.find(".right");
         }
-
-        slot.append("<div data-id='" + $(item).attr("id") + "'>" + options.title + "</div>");
+console.log($(item).attr("id"));
+        slot.append(html).children().last().addClass("header-item").attr("data-id", $(item).attr("id")).attr("asd", "foobar");
+        //slot.append("<div data-id='" + $(item).attr("id") + "' class='header-item'>" + title + "</div>");
       }
 
       $(".sticky").each(function() {
-        if (!isHidden(this) && inHeader(this)) {
+        if (!isHidden(this) && inHeader(this)) {console.log("removing");
           removeFromHeader(this);
         }
-        else if(isHidden(this) && !inHeader(this)) {
+        else if(isHidden(this) && !inHeader(this)) {console.log("adding");
           addToHeader(this);
         }
       });
