@@ -1,18 +1,9 @@
 $(function() {
-    // Init
     $(".sticky-header").hide();
 
     var header = $(".sticky-header");
 
     $(window).scroll(function() {
-
-      if(header.find(".header-item").length === 0) {
-        header.hide();
-      }
-      else {
-        header.show();
-      }
-
       function isHidden(item) {
         var headerHeight = header.is(":visible") ? header.height() : 0;
 
@@ -25,12 +16,24 @@ $(function() {
 
       function removeFromHeader(item) {
         header.find("[data-id=" + $(item).attr("id") + "]").remove();
+
+        if (header.find(".header-item").length === 0) {
+          header.slideUp(200);
+        }
       }
 
       function addToHeader(item) {
         var options = JSON.parse($(item).attr("options"));
         var position = options.position;
-        var html = options.html || $(item).clone().html();
+        var html;
+
+        if (typeof options.html === "string") {
+          html = options.html;
+        }
+        else {
+          html = $(item).clone().addClass("header-item").wrap('<div>').parent().html()
+        }
+
         var slot = header.find(".left");
 
         if (options.position === "L") {
@@ -42,19 +45,18 @@ $(function() {
         else if(options.position === "R") {
           slot = header.find(".right");
         }
-console.log($(item).attr("id"));
         slot.append(html).children().last().addClass("header-item").attr("data-id", $(item).attr("id")).attr("asd", "foobar");
-        //slot.append("<div data-id='" + $(item).attr("id") + "' class='header-item'>" + title + "</div>");
+
+        header.slideDown(200);
       }
 
       $(".sticky").each(function() {
-        if (!isHidden(this) && inHeader(this)) {console.log("removing");
+        if (!isHidden(this) && inHeader(this)) {
           removeFromHeader(this);
         }
-        else if(isHidden(this) && !inHeader(this)) {console.log("adding");
+        else if(isHidden(this) && !inHeader(this)) {
           addToHeader(this);
         }
       });
     });
-
 });

@@ -17,7 +17,7 @@
   width: 33.33333%
 }
 
-.sticky-header > .left > div {
+.sticky-header > .left > .header-item {
   float: left;
 }
 
@@ -36,18 +36,20 @@
   width: 33.33333%
 }
 
-.sticky-header > .right > div {
+.sticky-header > .right > .header-item {
   float: right;
 }
 
 .sticky-header .header-item {
   margin: 5px;
   padding: 5px;
+  /*
   border: 2px solid black;
   width: 75px;
+  */
 }
 
-.sticky {
+.btn-large {
   height: 75px;
   width: 150px;
 }
