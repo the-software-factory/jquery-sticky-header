@@ -6,10 +6,12 @@
 ---------------------------------------------------------------------
 */
 
+/* TODO MINIFY CSS */
+
 [data-sticky-header-container] {
   background: #f7f7f7; /* TODO to delete */
-  height: 100px;
-  line-height: 100px;
+  /*height: 100px;
+  line-height: 100px;*/
   left: 0;
   position: fixed;
   top: 0;
@@ -22,45 +24,16 @@
   width: 33.333333%;
 }
 
+/* TODO ALL these kinds of elements have to be vertically aligned */
 [data-sticky-header-container] > div > div {
   display: inline-block;
   vertical-align: middle;
 }
 
-.sticky-header > .left {
-  background-color: #90C3D4;
-  width: 33.33333%
-}
-
-.sticky-header > .left > .header-item {
-  float: left;
-}
-
-.sticky-header > .center {
-  background-color: #A7D18C;
-  width: 33.33333%;
+[data-sticky-header-container] > div:nth-of-type(2) {
   text-align: center;
 }
 
-.sticky-header > .center > .header-item {
-  display: inline-block;
-}
-
-.sticky-header > .right {
-  background-color: #D17873;
-  width: 33.33333%
-}
-
-.sticky-header > .right > .header-item {
-  float: right;
-}
-
-.sticky-header .header-item {
-  margin: 5px;
-  padding: 5px;
-}
-
-.btn-large {
-  height: 75px;
-  width: 150px;
+[data-sticky-header-container] > div:nth-of-type(3) {
+  text-align: left;
 }

@@ -8,7 +8,7 @@
     <header>
       <!-- TODO Header children have to be created through js in the init method -->
       <div></div><!--
-      --><div style="text-align: center"></div><!--
+      --><div></div><!--
       --><div style="text-align: right"></div>
     </header>
 
@@ -72,7 +72,8 @@
         $("button.sticky").after("<p>" + ipsum + "</p>");
 
         for (var index in configurations) {
-          $("#" + (Number(index) + 1)).attr("data-sticky-header-item", JSON.stringify(configurations[index]));
+          // TODO each element to display in the header should have an attribute called data-sticky-header-item
+          $("#" + (Number(index) + 1)).attr("data-sticky-header", JSON.stringify(configurations[index]));
         }
 
         $("header").stickyHeader();

@@ -5,6 +5,6 @@ describe("jQuery Sticky Header container tests", function() {
   });
 
   it("testing jQuery Sticky Header container add method.", function() {
-
+    // TODO implement this and all missing tests
   });
 });
