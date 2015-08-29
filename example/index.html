@@ -81,8 +81,10 @@
     $("button.sticky").after("<p>" + ipsum + "</p>");
 
     for (var index in configurations) {
-      $("#" + (Number(index) + 1)).attr("options", JSON.stringify(configurations[index]));
+      $("#" + (Number(index) + 1)).attr("data-sticky-header", JSON.stringify(configurations[index]));
     }
+
+    jQuery(".sticky-header").stickyHeader()
   });
   </script>
 </body>

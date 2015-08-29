@@ -1,18 +1,14 @@
 {
-  "name": "sticky-header",
-  "version": "0.0.0",
-  "authors": [
-    {
+  "name": "jquery-sticky-header",
+  "version": "0.1.0",
+  "authors": [{
       "name": "Andrea Stronati",
       "email": "astronati@vendini.com"
-    }
-  ],
-  "contributors": [
-    {
-      "name": "Alexei Liulin",
-      "email": "codwizard@gmail.com"
-    }
-  ],
+  }],
+  "contributors": [{
+    "name": "Alexei Liulin",
+    "email": "codwizard@gmail.com"
+  }],
   "license": "MIT",
   "ignore": [
     "**/.*",
