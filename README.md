@@ -1,5 +1,5 @@
 # jQuery Sticky Header
-The footer is positioned at the top of the page and it analyzes the page to know which elements have to be displayed
+The header is positioned at the top of the page and it analyzes the page to know which elements have to be displayed
 within it.
 
 ## Options
