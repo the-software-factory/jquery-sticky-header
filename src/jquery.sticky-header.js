@@ -28,6 +28,17 @@
 
           if (!item.getId()) {
             item.setId(++_stickyHeaderItemID);
+
+            $(document).on('DOMNodeRemoved', this, function(event) {
+              var item = new $.fn.stickyHeader.Item(event.data);
+              if (item.isRemoved()) {
+                return;
+              }
+              if (header.has(item)) {
+                item.setAsRemoved();
+                header.remove(item);
+              }
+            });
           }
 
           // If the item is visible in the viewport then it shouldn't be in the header.
@@ -203,6 +214,22 @@
     this.getHtml = function() {
       var options = JSON.parse($(selector).attr("data-sticky-header-item"));
       return typeof options.html === "string" ? options.html : $(selector).clone().get();
+    };
+
+    /**
+     * Determines if the item has been removed.
+     *
+     * @returns {boolean}
+     */
+    this.isRemoved = function() {
+      return $(selector).attr("data-sticky-header-item-removed") === "1";
+    };
+
+    /**
+     * Set the item as removed.
+     */
+    this.setAsRemoved = function() {
+      $(selector).attr("data-sticky-header-item-removed", "1");
     };
   };
 

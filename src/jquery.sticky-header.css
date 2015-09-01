@@ -17,11 +17,11 @@
 [data-sticky-header] [data-sticky-header-container] > div {
   display: inline-block;
   vertical-align: middle;
+  /* TODO Each section should be flex */
   width: 33.333333%;
 }
 
 [data-sticky-header] [data-sticky-header-container] > div > div {
-  display: inline-block;
   vertical-align: middle;
 }
 
