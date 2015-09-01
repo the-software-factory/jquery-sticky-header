@@ -1,6 +1,16 @@
-<a name="0.1.0"></a>
-# [0.1.0](//compare/0.1.0...v0.1.0) (2015-09-01)
+<a name="0.2.0"></a>
+# [0.2.0](//compare/0.2.0...v0.2.0) (2015-09-01)
 
+
+
+
+<a name="0.2.0"></a>
+# [0.2.0](//compare/0.1.0...0.2.0) (2015-09-01)
+
+
+### Features
+
+* Added data-sticky-header-container attribute to not override sticky-header content. e14e590
 
 
 
