@@ -1,1 +1,7 @@
-[data-sticky-header]>div,[data-sticky-header]>div>div{display:inline-block;vertical-align:middle}[data-sticky-header]{background:#f7f7f7;left:0;position:fixed;top:0;width:100%}[data-sticky-header]>div{width:33.333333%}[data-sticky-header]>div:nth-of-type(2){text-align:center}[data-sticky-header]>div:nth-of-type(3){text-align:right}
+/*
+ * jQuery Sticky Header vpull
+ (https://github.com/the-software-factory/jquery-sticky-footer)
+ * Copyright (c) 2015 Vendini srl <vendini@pec.it>
+ * Licensed under MIT (https://github.com/the-software-factory/jquery-sticky-header/blob/master/LICENSE.md)
+ */
+[data-sticky-header]{background:#f7f7f7;left:0;position:fixed;top:0;width:100%}[data-sticky-header] [data-sticky-header-container]>div{display:inline-block;vertical-align:middle;width:33.333333%}[data-sticky-header] [data-sticky-header-container]>div>div{display:inline-block;vertical-align:middle}[data-sticky-header] [data-sticky-header-container]>div:nth-of-type(2){text-align:center}[data-sticky-header] [data-sticky-header-container]>div:nth-of-type(3){text-align:right}

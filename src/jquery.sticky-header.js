@@ -127,18 +127,25 @@
      * @returns {Object}
      */
     this.getSlot = function(index) {
-      return $(selector).children().get(index);
+      return $(selector).find('[data-sticky-header-container]').children().get(index);
     };
 
     /**
      * Init the sticky header creating all sections and setting its css rules.
      */
     this.init = function() {
-      $(selector).empty();
+      if ($(selector).find('[data-sticky-header-container]').length === 0) {
+        $(selector).empty();
+      }
       $(selector).attr('data-sticky-header', '').hide();
 
       for (var i = 0; i < 3; i++) {
-        $(selector).append("<div></div>");
+        if ($(selector).find('[data-sticky-header-container]').length) {
+          $(selector).find('[data-sticky-header-container]').append("<div></div>");
+        }
+        else {
+          $(selector).append("<div></div>");
+        }
       }
     };
   };

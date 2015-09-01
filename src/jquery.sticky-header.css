@@ -14,21 +14,21 @@
   width: 100%;
 }
 
-[data-sticky-header] > div {
+[data-sticky-header] [data-sticky-header-container] > div {
   display: inline-block;
   vertical-align: middle;
   width: 33.333333%;
 }
 
-[data-sticky-header] > div > div {
+[data-sticky-header] [data-sticky-header-container] > div > div {
   display: inline-block;
   vertical-align: middle;
 }
 
-[data-sticky-header] > div:nth-of-type(2) {
+[data-sticky-header] [data-sticky-header-container] > div:nth-of-type(2) {
   text-align: center;
 }
 
-[data-sticky-header] > div:nth-of-type(3) {
+[data-sticky-header] [data-sticky-header-container] > div:nth-of-type(3) {
   text-align: right;
 }
