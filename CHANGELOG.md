@@ -1,6 +1,16 @@
-<a name="0.2.0"></a>
-# [0.2.0](//compare/0.2.0...v0.2.0) (2015-09-01)
+<a name="0.3.0"></a>
+# [0.3.0](//compare/0.3.0...v0.3.0) (2015-09-01)
 
+
+
+
+<a name="0.3.0"></a>
+# [0.3.0](//compare/0.2.0...0.3.0) (2015-09-01)
+
+
+### Bug Fixes
+
+* When an item is removed from the page then it should be removed also from the sticky header 54436ec
 
 
 
