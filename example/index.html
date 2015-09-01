@@ -1,26 +1,21 @@
 <html>
   <head>
     <title>Sticky Header Sandbox</title>
-    <link rel="stylesheet" href="../src/jquery.sticky-header.css">
+    <link rel="stylesheet" href="../dist/jquery.sticky-header.min.css">
   </head>
   <body>
 
-    <header>
-      <!-- TODO Header children have to be created through js in the init method -->
-      <div></div><!--
-      --><div></div><!--
-      --><div style="text-align: right"></div>
-    </header>
+    <header></header>
 
     <div id="container">
-      <button id="1" class="sticky btn-large">First Button</button>
-      <button id="2" class="sticky btn-large">Second button</button>
-      <button id="3" class="sticky btn-large">Third button</button>
-      <button id="4" class="sticky btn-large">Fourth Button</button>
-      <button id="5" class="sticky btn-large">Fifth button</button>
-      <button id="6" class="sticky btn-large">Sixth button</button>
-      <button id="7" class="sticky">Simply button</button>
-      <div id="8" class="sticky">
+      <button id="1">First Button</button>
+      <button id="2">Second button</button>
+      <button id="3">Third button</button>
+      <button id="4">Fourth Button</button>
+      <button id="5">Fifth button</button>
+      <button id="6">Sixth button</button>
+      <button id="7">Simply button</button>
+      <div id="8">
         <span style="display:inline-block; width:75px; line-height:30px; background-color: #338533; color: #fff; font-weight: bold; text-align:center;">Test</span>
         <span style="display:inline-block; width:75px; line-height:30px; background-color: #660000; color: #fff; font-weight: bold; text-align:center;">label</span>
       </div>
@@ -69,11 +64,10 @@
           $("#container").append("<p>" + ipsum + "</p>");
         }
 
-        $("button.sticky").after("<p>" + ipsum + "</p>");
+        $("#container > *").after("<p>" + ipsum + "</p>");
 
         for (var index in configurations) {
-          // TODO each element to display in the header should have an attribute called data-sticky-header-item
-          $("#" + (Number(index) + 1)).attr("data-sticky-header", JSON.stringify(configurations[index]));
+          $("#" + (Number(index) + 1)).attr("data-sticky-header-item", JSON.stringify(configurations[index]));
         }
 
         $("header").stickyHeader();

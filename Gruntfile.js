@@ -15,6 +15,16 @@ module.exports = function(grunt) {
                 }
             }
         },
+        cssmin: {
+            style: {
+                options: {
+                    shorthandCompacting: false,
+                    requireoundingPrecision: -1,
+                    keepSpecialComments: 0
+                },
+            files: { 'dist/jquery.sticky-header.min.css': 'src/jquery.sticky-header.css' }
+          }
+        },
         usebanner: {
             banner: {
                 options: {
@@ -33,7 +43,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    src: ['dist/jquery.sticky-heder.min.js']
+                    src: ['dist/jquery.sticky-header.min.js', 'dist/jquery.sticky-header.min.css']
                 }
             }
         },
@@ -67,6 +77,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-devserver');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -99,7 +110,7 @@ module.exports = function(grunt) {
         });
     });
 
-    grunt.registerTask("default", ["jshint", "uglify", "usebanner"]);
+    grunt.registerTask("default", ["jshint", "uglify", "cssmin", "usebanner"]);
     grunt.registerTask("development", ["devserver", "watch"]);
     grunt.registerTask("changelog", ["emptyTheChangelog", "conventionalChangelog", "changelogCommit"]);
 };

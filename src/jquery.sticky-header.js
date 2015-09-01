@@ -19,12 +19,12 @@
     var _stickyHeaderItemID = 0;
 
     return this.each(function() {
-      var header = new $.fn.stickyHeader.container(this);
+      var header = new $.fn.stickyHeader.Container(this);
       header.init();
 
       $(window).scroll(function() {
-        $("[data-sticky-header]").each(function() {
-          var item = new $.fn.stickyHeader.item(this);
+        $("[data-sticky-header-item]").each(function() {
+          var item = new $.fn.stickyHeader.Item(this);
 
           if (!item.getId()) {
             item.setId(++_stickyHeaderItemID);
@@ -50,7 +50,7 @@
    *
    * @param {Object} selector
    */
-  $.fn.stickyHeader.container = function(selector) {
+  $.fn.stickyHeader.Container = function(selector) {
 
     /**
      * Add a new item to the header.
@@ -73,13 +73,20 @@
           break;
       }
 
-      $(slot).append(
-        $('<div />').append(
-          item.getHtml()
-        )
+      var element = $('<div />').append(
+        item.getHtml()
       );
-      $(slot).children().last().attr('data-sticky-header-item-id', item.getId()).attr('data-sticky-header-item', true);
-      $(selector).slideDown(200);
+
+      if (item.getPosition() === 'R') {
+        $(slot).prepend(element);
+      }
+      else {
+        $(slot).append(element);
+      }
+
+      element.attr('data-sticky-header-item-id', item.getId());
+
+      $(selector).show();
     };
 
     /**
@@ -89,8 +96,8 @@
      */
     this.remove = function(item) {
       $(selector).find('[data-sticky-header-item-id="' + item.getId() + '"]').remove();
-      if ($(selector).find('[data-sticky-header-item]').length === 0) {
-        $(selector).slideUp(200);
+      if ($(selector).find('[data-sticky-header-item-id]').length === 0) {
+        $(selector).hide();
       }
     };
 
@@ -127,8 +134,12 @@
      * Init the sticky header creating all sections and setting its css rules.
      */
     this.init = function() {
-      $(selector).attr('data-sticky-header-container', 'container').hide();
-      // TODO Create three sections instead of being already created in the html.
+      $(selector).empty();
+      $(selector).attr('data-sticky-header', '').hide();
+
+      for (var i = 0; i < 3; i++) {
+        $(selector).append("<div></div>");
+      }
     };
   };
 
@@ -137,7 +148,7 @@
    *
    * @param {Object} selector
    */
-  $.fn.stickyHeader.item = function(selector) {
+  $.fn.stickyHeader.Item = function(selector) {
 
     /**
      * Determines if the item is visible in the viewport or not.
@@ -174,7 +185,7 @@
      * @returns {string}
      */
     this.getPosition = function() {
-      return JSON.parse($(selector).attr("data-sticky-header")).position;
+      return JSON.parse($(selector).attr("data-sticky-header-item")).position;
     };
 
     /**
@@ -183,7 +194,7 @@
      * @returns {String|Object}
      */
     this.getHtml = function() {
-      var options = JSON.parse($(selector).attr("data-sticky-header"));
+      var options = JSON.parse($(selector).attr("data-sticky-header-item"));
       return typeof options.html === "string" ? options.html : $(selector).clone().get();
     };
   };
