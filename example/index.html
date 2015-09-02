@@ -16,8 +16,8 @@
       <button id="6">Sixth button</button>
       <button id="7">Simply button</button>
       <div id="8">
-        <span style="display:inline-block; width:75px; line-height:30px; background-color: #338533; color: #fff; font-weight: bold; text-align:center;">Test</span>
-        <span style="display:inline-block; width:75px; line-height:30px; background-color: #660000; color: #fff; font-weight: bold; text-align:center;">label</span>
+        <span style="display:inline-block; width:75px; line-height:30px; background-color: #338533; color: #fff; font-weight: bold; text-align:center;">CLICK</span>
+        <span style="display:inline-block; width:75px; line-height:30px; background-color: #660000; color: #fff; font-weight: bold; text-align:center;">ME</span>
       </div>
     </div>
 
@@ -69,6 +69,10 @@
         for (var index in configurations) {
           $("#" + (Number(index) + 1)).attr("data-sticky-header-item", JSON.stringify(configurations[index]));
         }
+
+        $("[data-sticky-header-item]").last().click(function() {
+          alert("clicked!");
+        });
 
         $("header").stickyHeader();
       })(jQuery);

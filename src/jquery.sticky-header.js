@@ -213,7 +213,7 @@
      */
     this.getHtml = function() {
       var options = JSON.parse($(selector).attr("data-sticky-header-item"));
-      return typeof options.html === "string" ? options.html : $(selector).clone().get();
+      return typeof options.html === "string" ? options.html : $(selector).clone(true).get();
     };
 
     /**

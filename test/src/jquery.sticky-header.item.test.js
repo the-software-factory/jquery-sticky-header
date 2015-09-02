@@ -7,7 +7,7 @@ describe("jQuery Sticky Header item tests", function() {
     $("header").remove();
     $(".container").remove();
 
-    $("body").append("<header></header>");
+    $("body").append("<header><div data-sticky-header-container></div></header>");
     $("body").append("<div class='container'></div>");
 
     $(".container").append(fixture);

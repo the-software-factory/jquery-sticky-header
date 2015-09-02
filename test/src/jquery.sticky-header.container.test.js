@@ -8,7 +8,7 @@ describe("jQuery Sticky Header container tests", function() {
     $("header").remove();
     $(".container").remove();
 
-    $("body").append("<header></header>");
+    $("body").append("<header><div data-sticky-header-container></div></header>");
     $("body").append("<div class='container'></div>");
 
     $(".container").append(fixture);
@@ -28,31 +28,29 @@ describe("jQuery Sticky Header container tests", function() {
     expect(header.getHeight()).toBe(0);
 
     // The header is visible
-    $("header").append("<span>test</span>");
+    $("data-sticky-header-container > div:first").append("<span>test</span>");
     $("header").show();
 
     expect(header.getHeight()).toBe($("header").height());
   });
 
   it("init method.", function() {
-    header.init();
-
     // Has data-sticky-header attribute
     expect($("header").attr("data-sticky-header")).toBeDefined();
 
     // Has 3 children divs
-    expect($("header > div").length).toBe(3);
+    expect($("[data-sticky-header-container] > div").length).toBe(3);
   });
 
   it("getSlot method.", function() {
     // Valid indexes
-    $("header > div:first").append("<span>test L</span>");
-    $("header > div:nth-child(2)").append("<span>test C</span>");
-    $("header > div:last").append("<span>test C</span>");
+    $("[data-sticky-header-container] > div:first").append("<span>test L</span>");
+    $("[data-sticky-header-container] > div:nth-child(2)").append("<span>test C</span>");
+    $("[data-sticky-header-container] > div:last").append("<span>test C</span>");
 
-    expect($(header.getSlot(0)).html()).toBe($("header > div:first").html());
-    expect($(header.getSlot(1)).html()).toBe($("header > div:nth-child(2)").html());
-    expect($(header.getSlot(2)).html()).toBe($("header > div:last").html());
+    expect($(header.getSlot(0)).html()).toBe($("[data-sticky-header-container] > div:first").html());
+    expect($(header.getSlot(1)).html()).toBe($("[data-sticky-header-container] > div:nth-child(2)").html());
+    expect($(header.getSlot(2)).html()).toBe($("[data-sticky-header-container] > div:last").html());
 
     // Invalid index
     expect(typeof header.getSlot(3)).toBe("undefined");
@@ -85,13 +83,13 @@ describe("jQuery Sticky Header container tests", function() {
     header.add(itemL);
 
     // The left slot has exactly one item
-    expect($("header > div:first > div").length).toBe(1);
+    expect($("[data-sticky-header-container] > div:first > div").length).toBe(1);
     // Its HTML is the same as fixture's
-    expect($("header > div:first > div").first().html()).toBe(fixtureHtml);
+    expect($("[data-sticky-header-container] > div:first > div").first().html()).toBe(fixtureHtml);
     // It has the data-sticky-header-item-id attribute set
-    expect($("header > div:first > div").first().attr("data-sticky-header-item-id")).toBeDefined();
+    expect($("[data-sticky-header-container] > div:first > div").first().attr("data-sticky-header-item-id")).toBeDefined();
     // The header is visible after the header item addition
-    expect($("header").is(":visible")).toBe(true);
+    expect($("[data-sticky-header-container]").is(":visible")).toBe(true);
 
     // Add to the central slot
     var centralSlotHtml = ($("[data-sticky-header-item]").first().clone().wrap("<div />").parent().html()).replace("L", "C");
@@ -101,9 +99,9 @@ describe("jQuery Sticky Header container tests", function() {
     $(window).scroll();
     header.add(itemC);
 
-    expect($("header > div:nth-child(2) > div").length).toBe(1);
-    expect($("header > div:nth-child(2) > div").first().html()).toBe(fixtureHtml);
-    expect($("header > div:nth-child(2) > div").first().attr("data-sticky-header-item-id")).toBeDefined();
+    expect($("[data-sticky-header-container] > div:nth-child(2) > div").length).toBe(1);
+    expect($("[data-sticky-header-container] > div:nth-child(2) > div").first().html()).toBe(fixtureHtml);
+    expect($("[data-sticky-header-container] > div:nth-child(2) > div").first().attr("data-sticky-header-item-id")).toBeDefined();
     expect($("header").is(":visible")).toBe(true);
 
     // Add to the right slot
@@ -114,10 +112,35 @@ describe("jQuery Sticky Header container tests", function() {
     $(window).scroll();
     header.add(itemR);
 
-    expect($("header > div:nth-child(3) > div").length).toBe(1);
-    expect($("header > div:nth-child(3) > div").first().html()).toBe(fixtureHtml);
-    expect($("header > div:nth-child(3) > div").first().attr("data-sticky-header-item-id")).toBeDefined();
+    expect($("[data-sticky-header-container] > div:nth-child(3) > div").length).toBe(1);
+    expect($("[data-sticky-header-container] > div:nth-child(3) > div").first().html()).toBe(fixtureHtml);
+    expect($("[data-sticky-header-container] > div:nth-child(3) > div").first().attr("data-sticky-header-item-id")).toBeDefined();
     expect($("header").is(":visible")).toBe(true);
+
+
+    // Add an element without custom HTML specified and check if event listeners attached to it are copied too
+    $(".container").append($("<button data-sticky-header-item='{}'>FooBar</button>"));
+    var elementWitoutCustomHtml = $(".container > [data-sticky-header-item]").last();
+    var itemWithoutCustomHtml = new $.fn.stickyHeader.Item(elementWitoutCustomHtml);
+
+    var eventData = {
+      counter: 0
+    };
+
+    elementWitoutCustomHtml.click(eventData, function(event) {
+      event.data.counter++;
+    });
+
+    // Forces the data-sticky-header-item-id to be generated
+    $(window).scroll();
+    // Clones the object's HTML as no custom HTML was provided
+    header.add(itemWithoutCustomHtml);
+    // Get the just inserted object
+    var itemWithClonedHtmlInHeader = $("[data-sticky-header-container] > div:first > div:last > *");
+    // Trigger the onclick event on it
+    itemWithClonedHtmlInHeader.click();
+    // And check if the event listener of the original page object is the same
+    expect(eventData.counter).toBe(1);
   });
 
   it("remove method.", function() {
