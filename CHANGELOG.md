@@ -4,6 +4,8 @@
 
 ### Features
 
+* TravisCI badge added cc507a9
+* TravisCI configuration file added 00d9260
 * Version 0.4.0 released, Tests updated, Deep object cloning added, Headers updated, Example page updated a602e00
 
 
