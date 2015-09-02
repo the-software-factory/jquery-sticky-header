@@ -1,0 +1,18 @@
+<div id="clickable" data-sticky-header-item="{}">
+  <span style="display:inline-block; width:75px; line-height:30px; background-color: #338533; color: #fff; font-weight: bold; text-align:center;">CLICK</span>
+  <span style="display:inline-block; width:75px; line-height:30px; background-color: #660000; color: #fff; font-weight: bold; text-align:center;">ME</span>
+</div>
+
+<script type="text/javascript">
+$(function() {
+  $("#clickable").click(function() {
+    alert("Clicked! =)");
+  });
+});
+</script>
+
+<div ng-repeat="i in [1,2,3]">
+  <p>{{ipsum}}</p>
+</div>
+
+<button data-sticky-header-item="{}">Push me</button>

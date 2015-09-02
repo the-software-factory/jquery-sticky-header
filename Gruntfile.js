@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                         var lastYear = execSync("git log --format='%ai' | head -n 1").toString().split('-')[0];
 
                         return "/*\n" +
-                            " * jQuery Sticky Header v" + latestTag + " (https://github.com/the-software-factory/jquery-sticky-footer)\n" +
+                            " * jQuery Sticky Header v" + latestTag + " (https://github.com/the-software-factory/jquery-sticky-header)\n" +
                             " * Copyright (c) " + ((firstYear === lastYear) ? firstYear : (firstYear + "-" + lastYear)) + " Vendini srl <vendini@pec.it>\n" +
                             " * Licensed under MIT (https://github.com/the-software-factory/jquery-sticky-header/blob/master/LICENSE.md)\n" +
                             " */";

@@ -1,0 +1,93 @@
+<html ng-app="testApp">
+<head>
+  <title>Sticky Header Sandbox + Angular</title>
+  <link rel="stylesheet" href="../dist/jquery.sticky-header.min.css">
+  <style type="text/css">
+    a.big {
+      padding: 10px 15px;
+      background-color: #0099FF;
+      margin-left: 100;
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body ng-controller="TestCtrl">
+
+  <header>
+    <div data-sticky-header-container></div>
+  </header>
+
+  <p ng-repeat="i in [1,2,3,4,5,6]">
+    {{ipsum}}
+  </p>
+
+  <div ui-view></div>
+
+  <p ng-repeat="i in [1,2,3,4,5,6,7,8,9,10,11,12]">
+    {{ipsum}}
+  </p>
+
+  <a ui-sref="state1" class="big">State1</a>
+  <a ui-sref="state2" class="big">State2</a>
+
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../dist/jquery.sticky-header.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+
+  <script type="text/javascript">
+    $("header").stickyHeader();
+  </script>
+
+  <script type="text/javascript">
+  angular.module("testApp", ["ui.router"])
+  .config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise("/state1");
+
+    $stateProvider
+    .state("state1", {
+      url: "/state1",
+      templateUrl: "partials/partial1.html"
+    })
+    .state("state2", {
+      url: "/state2",
+      templateUrl: "partials/partial2.html"
+    });
+  })
+  .controller("TestCtrl", function($scope) {
+    $scope.ipsum =
+    "Bacon ipsum dolor amet tongue pork tenderloin pork belly cow. Pancetta pork chop beef shoulder. Cow short ribs doner fatback." +
+    "Boudin short ribs jerky ham hock capicola prosciutto tri-tip. Kielbasa picanha pork loin meatloaf tongue alcatra hamburger brisket" +
+    "filet mignon turducken shank short loin landjaeger beef ribs. Leberkas ground round meatloaf shankle fatback short ribs turducken." +
+    "Fatback prosciutto cow tri-tip, leberkas drumstick turducken spare ribs pork.";
+
+    $scope.stickyItemsOptions = [
+      {
+        position: 'L',
+        html: '<a href=\'#\'><img height=\'50\' width=\'50\' src=\'icons/number1.png\'></a>'
+      }, {
+        position: 'C',
+        html: '<a href=\'#\'><img height=\'50\' width=\'50\' src=\'icons/number2.png\'></a>'
+      }, {
+        position: 'R',
+        html: '<a href=\'#\'><img height=\'50\' width=\'50\' src=\'icons/number3.png\'></a>'
+      }, {
+        position: 'L',
+        html: '<a href=\'#\'><img height=\'50\' width=\'50\' src=\'icons/number4.png\'></a>'
+      }, {
+        position: 'C',
+        html: '<a href=\'#\'><img height=\'50\' width=\'50\' src=\'icons/number5.png\'></a>'
+      }, {
+        position: 'R',
+        html: '<a href=\'#\'><img height=\'50\' width=\'50\' src=\'icons/number6.png\'></a>'
+      }, {
+        position: 'L'
+      }, {
+        position: 'C'
+      }
+    ];
+  });
+  </script>
+</body>
+</html>

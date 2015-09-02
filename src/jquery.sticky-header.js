@@ -53,6 +53,25 @@
           }
         });
       });
+
+      // When AngularJS changes the partial view, the hash changes too.
+      // Removes elements relative to the previous view from the header
+      // and triggers scroll event so the header is repopulated with the elements
+      // from the next view (is any of them are hidden)
+      window.onhashchange = function() {
+        if ($("header").find("[data-sticky-header-container]").length) {
+          $("header").find("[data-sticky-header-container]").children().each(function() {
+            $(this).empty();
+            $(window).scroll();
+          });
+        }
+        else {
+          $("header").children().each(function() {
+            $(this).empty();
+            $(window).scroll();
+          });
+        }
+      };
     });
   };
 
@@ -183,7 +202,7 @@
      * @returns {boolean}
      */
     this.isHidden = function(window, header) {
-      return ($(window).scrollTop() + header.getHeight()) >= ($(selector).offset().top + $(selector).height());
+      return $(window).scrollTop() > $(selector).offset().top;
     };
 
     /**
