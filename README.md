@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/the-software-factory/jquery-sticky-header.svg?branch=master)](https://travis-ci.org/the-software-factory/jquery-sticky-header)
+
 # jQuery Sticky Header
 The header is positioned at the top of the page and it analyzes the page to know which elements have to be displayed
 within it.
@@ -68,4 +70,3 @@ Take a look at [`test/README.md`](test/README.md) for more details.
 
 ## Contributing
 Take a look at [`CONTRIBUTING.md`](CONTRIBUTING.md) for more details.
-
