@@ -1,5 +1,15 @@
-<a name="0.3.0"></a>
-# [0.3.0](//compare/0.3.0...v0.3.0) (2015-09-01)
+<a name="0.4.0"></a>
+# [0.4.0](//compare/0.4.0...v0.4.0) (2015-09-02)
+
+
+### Features
+
+* Version 0.4.0 released, Tests updated, Deep object cloning added, Headers updated, Example page updated a602e00
+
+
+
+<a name="0.4.0"></a>
+# [0.4.0](//compare/0.3.0...0.4.0) (2015-09-01)
 
 
 
