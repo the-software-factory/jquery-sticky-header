@@ -2,17 +2,21 @@
 # [0.4.0](//compare/0.4.0...v0.4.0) (2015-09-02)
 
 
+### Bug Fixes
+
+* Plugin won't work without the [data-sticky-header-container] element inside the root container bug fixed, README updated, bower.json updated 57079ba
+
+
+
+<a name="0.4.0"></a>
+# [0.4.0](//compare/0.3.0...0.4.0) (2015-09-02)
+
+
 ### Features
 
 * TravisCI badge added cc507a9
 * TravisCI configuration file added 00d9260
 * Version 0.4.0 released, Tests updated, Deep object cloning added, Headers updated, Example page updated a602e00
-
-
-
-<a name="0.4.0"></a>
-# [0.4.0](//compare/0.3.0...0.4.0) (2015-09-01)
-
 
 
 
