@@ -138,7 +138,14 @@
      * @returns {Object}
      */
     this.getSlot = function(index) {
-      return $(selector).find('[data-sticky-header-container]').children().get(index);
+      // The plugin was initialized on the container with [data-sticky-header-container] child
+      if ($(selector).find('[data-sticky-header-container]').length) {
+        return $(selector).find('[data-sticky-header-container]').children().get(index);
+      }
+      // The plugin was initialized on the container without [data-sticky-header-container] child
+      else {
+        return $(selector).children().get(index);
+      }
     };
 
     /**
