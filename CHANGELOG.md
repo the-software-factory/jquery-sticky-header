@@ -6,6 +6,10 @@
 
 * Plugin won't work without the [data-sticky-header-container] element inside the root container bug fixed, README updated, bower.json updated 57079ba
 
+### Features
+
+* Element addition to header point changed, Grunt banner options corrected, Remove header elements on hash change added ea75719
+
 
 
 <a name="0.4.0"></a>
