@@ -9,7 +9,15 @@
    *
    * @return {selector}
    */
-  $.fn.stickyHeader = function() {
+  $.fn.stickyHeader = function(options) {
+
+    /**
+     * Extends default options with those provided.
+     *
+     * @type {Object}
+     * @private
+     */
+    var _opts = $.extend({}, $.fn.stickyHeader.defaults, options);
 
     /**
      * Keeps track of the last header item ID. Each header item ID is an incremental number.
@@ -19,26 +27,39 @@
     var _stickyHeaderItemID = 0;
 
     return this.each(function() {
-      var header = new $.fn.stickyHeader.Container(this);
+      var header = new $.fn.stickyHeader.Container(this, _opts);
       header.init();
 
       $(window).scroll(function() {
-        $("[data-sticky-header-item]").each(function() {
-          var item = new $.fn.stickyHeader.Item(this);
+        $('[' + _opts.itemAttribute + ']').each(function() {
+          var item = new $.fn.stickyHeader.Item(this, _opts);
 
           if (!item.getId()) {
             item.setId(++_stickyHeaderItemID);
 
-            $(document).on('DOMNodeRemoved', this, function(event) {
-              var item = new $.fn.stickyHeader.Item(event.data);
-              if (item.isRemoved()) {
-                return;
-              }
-              if (header.has(item)) {
-                item.setAsRemoved();
-                header.remove(item);
-              }
+            var observer = new MutationObserver(function(mutations) {
+              mutations.forEach(function(mutation) {
+                for (var i = 0; i < mutation.removedNodes.length; i++) {
+                  var item = new $.fn.stickyHeader.Item(mutation.removedNodes[i], _opts);
+
+                  if (item.isRemoved()) {
+                    return;
+                  }
+                  if (header.has(item)) {
+                    item.setAsRemoved();
+                    header.remove(item);
+                  }
+                }
+              });
             });
+
+            observer.observe(
+              document.querySelector('body'),
+              {
+                childList: true,
+                subtree: true
+              }
+            );
           }
 
           // If the item is visible in the viewport then it shouldn't be in the header.
@@ -59,18 +80,15 @@
       // and triggers scroll event so the header is repopulated with the elements
       // from the next view (is any of them are hidden)
       window.onhashchange = function() {
-        if ($("header").find("[data-sticky-header-container]").length) {
-          $("header").find("[data-sticky-header-container]").children().each(function() {
-            $(this).empty();
-            $(window).scroll();
-          });
+        function itemRemover() {
+          header.remove(new $.fn.stickyHeader.Item($(this), _opts));
         }
-        else {
-          $("header").children().each(function() {
-            $(this).empty();
-            $(window).scroll();
-          });
+
+        for(var i = 0; i < 3; i++) {
+          $(header.getSlot(i)).children().each(itemRemover);
         }
+
+        $(window).scroll();
       };
     });
   };
@@ -80,8 +98,7 @@
    *
    * @param {Object} selector
    */
-  $.fn.stickyHeader.Container = function(selector) {
-
+  $.fn.stickyHeader.Container = function(selector, opts) {
     /**
      * Add a new item to the header.
      *
@@ -103,18 +120,18 @@
           break;
       }
 
-      var element = $('<div />').append(
-        item.getHtml()
-      );
+      var element = $(item.getHtml());
 
       if (item.getPosition() === 'R') {
         $(slot).prepend(element);
       }
       else {
-        $(slot).append(element);
+        $(slot).append(element.removeAttr(opts.itemAttribute));
       }
 
-      element.attr('data-sticky-header-item-id', item.getId());
+      if (element.attr(opts.itemIdAttribute) === undefined) {
+        element.attr(opts.itemIdAttribute, item.getId());
+      }
 
       $(selector).show();
     };
@@ -125,8 +142,8 @@
      * @param {Object} item An instance of Item
      */
     this.remove = function(item) {
-      $(selector).find('[data-sticky-header-item-id="' + item.getId() + '"]').remove();
-      if ($(selector).find('[data-sticky-header-item-id]').length === 0) {
+      $(selector).find('[' + opts.itemIdAttribute + '="' + item.getId() + '"]').remove();
+      if ($(selector).find('[' + opts.itemIdAttribute + ']').length === 0) {
         $(selector).hide();
       }
     };
@@ -147,7 +164,7 @@
      * @returns {boolean}
      */
     this.has = function(item) {
-      return $(selector).find('[data-sticky-header-item-id="' + item.getId() + '"]').length > 0;
+      return $(selector).find('[' + opts.itemIdAttribute + '="' + item.getId() + '"]').length > 0;
     };
 
     /**
@@ -158,8 +175,8 @@
      */
     this.getSlot = function(index) {
       // The plugin was initialized on the container with [data-sticky-header-container] child
-      if ($(selector).find('[data-sticky-header-container]').length) {
-        return $(selector).find('[data-sticky-header-container]').children().get(index);
+      if ($(selector).find('[' + opts.headerContainerAttribute + ']').length) {
+        return $(selector).find('[' + opts.headerContainerAttribute + ']').children().get(index);
       }
       // The plugin was initialized on the container without [data-sticky-header-container] child
       else {
@@ -171,14 +188,14 @@
      * Init the sticky header creating all sections and setting its css rules.
      */
     this.init = function() {
-      if ($(selector).find('[data-sticky-header-container]').length === 0) {
+      if ($(selector).find('[' + opts.headerContainerAttribute + ']').length === 0) {
         $(selector).empty();
       }
-      $(selector).attr('data-sticky-header', '').hide();
+      $(selector).attr(opts.headerAttribute, '').hide();
 
       for (var i = 0; i < 3; i++) {
-        if ($(selector).find('[data-sticky-header-container]').length) {
-          $(selector).find('[data-sticky-header-container]').append("<div></div>");
+        if ($(selector).find('[' + opts.headerContainerAttribute + ']').length) {
+          $(selector).find('[' + opts.headerContainerAttribute + ']').append("<div></div>");
         }
         else {
           $(selector).append("<div></div>");
@@ -192,7 +209,7 @@
    *
    * @param {Object} selector
    */
-  $.fn.stickyHeader.Item = function(selector) {
+  $.fn.stickyHeader.Item = function(selector, opts) {
 
     /**
      * Determines if the item is visible in the viewport or not.
@@ -211,7 +228,7 @@
      * @param {number} id
      */
     this.setId = function(id) {
-      $(selector).attr('data-sticky-header-item-id', id);
+      $(selector).attr(opts.itemIdAttribute, id);
     };
 
     /**
@@ -220,7 +237,7 @@
      * @returns {number}
      */
     this.getId = function() {
-      return $(selector).attr('data-sticky-header-item-id');
+      return $(selector).attr(opts.itemIdAttribute);
     };
 
     /**
@@ -229,7 +246,7 @@
      * @returns {string}
      */
     this.getPosition = function() {
-      return JSON.parse($(selector).attr("data-sticky-header-item")).position;
+      return JSON.parse($(selector).attr(opts.itemAttribute)).position;
     };
 
     /**
@@ -238,7 +255,7 @@
      * @returns {String|Object}
      */
     this.getHtml = function() {
-      var options = JSON.parse($(selector).attr("data-sticky-header-item"));
+      var options = JSON.parse($(selector).attr(opts.itemAttribute));
       return typeof options.html === "string" ? options.html : $(selector).clone(true).get();
     };
 
@@ -248,14 +265,14 @@
      * @returns {boolean}
      */
     this.isRemoved = function() {
-      return $(selector).attr("data-sticky-header-item-removed") === "1";
+      return $(selector).attr(opts.itemRemovedAttribute) === "1";
     };
 
     /**
      * Set the item as removed.
      */
     this.setAsRemoved = function() {
-      $(selector).attr("data-sticky-header-item-removed", "1");
+      $(selector).attr(opts.itemRemovedAttribute, "1");
     };
   };
 
@@ -274,8 +291,26 @@
 
     /**
      * @type {string}
+     * @default 'data-sticky-header-container'
+     */
+    headerContainerAttribute: 'data-sticky-header-container',
+
+    /**
+     * @type {string}
      * @default 'data-sticky-header-item'
      */
-    itemAttribute: 'data-sticky-header-item'
+    itemAttribute: 'data-sticky-header-item',
+
+    /**
+     * @type {string}
+     * @default 'data-sticky-header-item-removed'
+     */
+    itemRemovedAttribute: 'data-sticky-header-item-removed',
+
+    /**
+     * @type {string}
+     * @default 'data-sticky-header-item-id'
+     */
+    itemIdAttribute: 'data-sticky-header-item-id'
   };
 }(jQuery));

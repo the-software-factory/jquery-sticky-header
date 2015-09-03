@@ -62,6 +62,45 @@ data-sticky-header-item="{}"
 ```
 otherwise the JSON parsing error will be triggered.
 
+### Options
+You can customize the data attributes that jQuery Sticky Header uses to track items in the page and in the header by passing it a configuration object, like this:
+```js
+$('header').stickyHeader(config);
+```
+The available options are:
+
+* headerAttribute
+    + Type: `String`
+    + Default: `data-sticky-header`
+    + Description: This attribute will be assigned to the element on which the plugin was initialized
+
+* headerContainerAttribute
+    + Type: `String`
+    + Default: `data-sticky-header-container`
+    + Description: If you want to add an extra container to the root header container, mark it with this attribute
+
+* itemAttribute
+    + Type: `String`
+    + Default: `data-sticky-header-item`
+    + Description: Every item on you page that you want to place into the Sticky Header must be marked with this attribute
+
+* itemRemovedAttribute
+    + Type: `String`
+    + Default: `data-sticky-header-item-removed`
+    + Description: Items removed from the DOM are marked with this attribute
+
+* itemIdAttribute
+    + Type: `String`
+    + Default: `data-sticky-header-item-id`
+    + Description: Every item marked with [itemAttribute] and its eventual in-header counterpart will be assigned an incremental ID through this attribute
+
+#### Example usage with custom options:
+```js
+$('header').stickyHeader({
+  headerAttribute: "data-dynamic-header",
+  itemIdAttribute: "data-dynamic-header-item-id"
+});
+```
 
 ## Development
 The project has the following structure:

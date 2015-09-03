@@ -15,6 +15,11 @@
   z-index: 999999;
 }
 
+[data-sticky-header] [data-sticky-header-container] {
+  height: 100%;
+  overflow: hidden;
+}
+
 [data-sticky-header] [data-sticky-header-container] > div {
   display: inline-block;
   vertical-align: middle;
