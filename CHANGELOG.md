@@ -2,6 +2,10 @@
 # [0.5.0](//compare/0.5.0...v0.5.0) (2015-09-03)
 
 
+### Bug Fixes
+
+* itemAttribtue removal before insertion fixed, Observer target selector optimized 8a0c322
+
 ### Features
 
 * Custom options implemented, Selectors made parametric, Stylesheet updated, README updated 49f1369
