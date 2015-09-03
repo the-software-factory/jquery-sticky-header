@@ -54,7 +54,7 @@
             });
 
             observer.observe(
-              document.querySelector('body'),
+              $('[' + _opts.itemAttribute + ']').parent().toArray()[0],
               {
                 childList: true,
                 subtree: true
@@ -120,13 +120,13 @@
           break;
       }
 
-      var element = $(item.getHtml());
+      var element = $(item.getHtml()).removeAttr(opts.itemAttribute);
 
       if (item.getPosition() === 'R') {
         $(slot).prepend(element);
       }
       else {
-        $(slot).append(element.removeAttr(opts.itemAttribute));
+        $(slot).append(element);
       }
 
       if (element.attr(opts.itemIdAttribute) === undefined) {
