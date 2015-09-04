@@ -5,6 +5,7 @@
 ### Features
 
 * Container code improved, Elements are considered hidden when they reach their in-header height, Tests updated, Comments added, Gruntfile updated f96d7d2
+* Dynamic slot insertion added, Header container is now flex container, CSS rules updated, README updated cbfdac7
 * Tests updated, Code adjustments 0565a68
 
 
