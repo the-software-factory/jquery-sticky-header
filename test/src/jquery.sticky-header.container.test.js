@@ -23,23 +23,11 @@ describe("jQuery Sticky Header container tests", function() {
 
     $("header").stickyHeader();
 
-    header = new $.fn.stickyHeader.Container($("header"), options);
+    header = new $.fn.stickyHeader.Container($("[" + options.headerContainerAttribute + "]"), options);
   });
 
   it("container object.", function() {
     expect(jQuery.fn.stickyHeader.Container).toBeDefined();
-  });
-
-
-  it("getHeight method.", function() {
-    // The header is hidden
-    expect(header.getHeight()).toBe(0);
-
-    // The header is visible
-    $("[" + options.headerContainerAttribute + "] > div:first").append("<span>test</span>");
-    $("header").show();
-
-    expect(header.getHeight()).toBe($("header").height());
   });
 
   it("init method.", function() {
@@ -167,7 +155,6 @@ describe("jQuery Sticky Header container tests", function() {
     var secondItem = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]").last(), options);
     secondItem.setId("2");
 
-    $(window).scroll();
     header.add(item);
     header.add(secondItem);
 

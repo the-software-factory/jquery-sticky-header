@@ -27,8 +27,21 @@
     var _stickyHeaderItemID = 0;
 
     return this.each(function() {
-      var header = new $.fn.stickyHeader.Container(this, _opts);
-      header.init();
+      // Marks the header with headerAttribute attribute and hides it
+      $(this).attr(_opts.headerAttribute, '').hide();
+
+      // If the header doesn't have a child marked with headerContainerAttribute
+      // then the header itself becomes a container
+      if ($(this).find('[' + _opts.headerContainerAttribute + ']').length === 0) {
+        $(this).attr(_opts.headerContainerAttribute, '');
+      }
+
+      // Initializes the header container
+      var headerContainer = new $.fn.stickyHeader.Container(
+        $('[' + _opts.headerContainerAttribute + ']'), _opts
+      );
+
+      headerContainer.init();
 
       $(window).scroll(function() {
         $('[' + _opts.itemAttribute + ']').each(function() {
@@ -37,40 +50,49 @@
           if (!item.getId()) {
             item.setId(++_stickyHeaderItemID);
 
+            // Watches for DOM changes, in particular for node addition and removal
             var observer = new MutationObserver(function(mutations) {
               mutations.forEach(function(mutation) {
+                // Iterate only through the removed nodes
                 for (var i = 0; i < mutation.removedNodes.length; i++) {
+                  // Create an item representing the removed node
                   var item = new $.fn.stickyHeader.Item(mutation.removedNodes[i], _opts);
 
+                  // Do nothing if the item has already been set as removed
                   if (item.isRemoved()) {
                     return;
                   }
-                  if (header.has(item)) {
+
+                  // Remove an eventual header element that corresponds to the one removed from DOM and set the item as removed
+                  if (headerContainer.has(item)) {
                     item.setAsRemoved();
-                    header.remove(item);
+                    headerContainer.remove(item);
                   }
                 }
               });
             });
 
+            // Start watching for the sticky items addition or removal on their parents
             observer.observe(
               $('[' + _opts.itemAttribute + ']').parent().toArray()[0],
               {
+                // Watch for sticky items removal or addition
                 childList: true,
+                // Do it recursively
                 subtree: true
               }
             );
           }
 
           // If the item is visible in the viewport then it shouldn't be in the header.
-          if (!item.isHidden(window, header) &&
-              header.has(item)) {
-            header.remove(item);
+          if (!item.isHidden(window, headerContainer) &&
+              headerContainer.has(item)) {
+            headerContainer.remove(item);
           }
           // If the item is NOT visible in the viewport, then add it in the header.
-          else if (item.isHidden(window, header) &&
-              !header.has(item)) {
-            header.add(item);
+          else if (item.isHidden(window, headerContainer) &&
+              !headerContainer.has(item)) {
+            headerContainer.add(item);
           }
         });
       });
@@ -80,16 +102,20 @@
       // and triggers scroll event so the header is repopulated with the elements
       // from the next view (is any of them are hidden)
       window.onhashchange = function() {
-        var slots = header.getSlots().toArray();
+        // Gets all the header slots
+        var slots = headerContainer.getSlots().toArray();
 
         for (var slotId in slots) {
-          var items = $(slots[slotId]).find("> *").toArray();
+          // Gets all the items inserted into slot
+          var items = $(slots[slotId]).children().toArray();
 
           for (var itemId in items) {
-            header.remove(new $.fn.stickyHeader.Item(items[itemId], _opts));
+            // Removes the item from the slot
+            headerContainer.remove(new $.fn.stickyHeader.Item(items[itemId], _opts));
           }
         }
 
+        // Triggers the scroll eventi so the header is repopulated for the new partial
         $(window).scroll();
       };
     });
@@ -124,6 +150,10 @@
 
       var element = $(item.getHtml()).removeAttr(opts.itemAttribute);
 
+      if (element.attr(opts.itemIdAttribute) === undefined) {
+        element.attr(opts.itemIdAttribute, item.getId());
+      }
+
       if (item.getPosition() === 'R') {
         $(slot).prepend(element);
       }
@@ -131,11 +161,7 @@
         $(slot).append(element);
       }
 
-      if (element.attr(opts.itemIdAttribute) === undefined) {
-        element.attr(opts.itemIdAttribute, item.getId());
-      }
-
-      $(selector).show();
+      $(selector).parents().find('[' + opts.headerAttribute + ']').show();
     };
 
     /**
@@ -146,17 +172,33 @@
     this.remove = function(item) {
       $(selector).find('[' + opts.itemIdAttribute + '="' + item.getId() + '"]').remove();
       if ($(selector).find('[' + opts.itemIdAttribute + ']').length === 0) {
-        $(selector).hide();
+        $(selector).parents().find('[' + opts.headerAttribute + ']').hide();
       }
     };
 
     /**
-     * Get the header height.
+     * Gets the sum of top paddings of all the element berweend header and header container included
      *
-     * @returns {number}
+     * @return {Number} Total top padding
      */
-    this.getHeight = function() {
-      return $(selector).is(":visible") ? $(selector).height() : 0;
+    this.getTopPaddings = function() {
+      // Considers the header container element too
+      var elements = $(selector).children().first().parents();
+      var topPaddings = 0;
+
+      // Iterates through parents untill it reaches the header
+      for (var i = 0; i < elements.length; i++) {
+        topPaddings += Number.parseInt(
+          $(elements[i]).css('padding-top').replace('px', '')
+        );
+
+        // Stops if the header was reached
+        if (typeof $(elements[i]).attr(opts.headerAttribute) !== "undefined") {
+          break;
+        }
+      }
+
+      return topPaddings;
     };
 
     /**
@@ -176,14 +218,7 @@
      * @returns {Object}
      */
     this.getSlot = function(index) {
-      // The plugin was initialized on the container with [data-sticky-header-container] child
-      if ($(selector).find('[' + opts.headerContainerAttribute + ']').length) {
-        return $(selector).find('[' + opts.headerContainerAttribute + ']').children().get(index);
-      }
-      // The plugin was initialized on the container without [data-sticky-header-container] child
-      else {
-        return $(selector).children().get(index);
-      }
+      return $(selector).children().get(index);
     };
 
     /**
@@ -192,30 +227,17 @@
      * @return {Object}
      */
     this.getSlots = function() {
-      if ($(selector).find('[' + opts.headerContainerAttribute + ']').length === 0) {
-        return $(selector).find('> div');
-      }
-      else {
-        return $(selector).find('[' + opts.headerContainerAttribute + ']').find("> div");
-      }
+      return $(selector).children();
     };
 
     /**
-     * Init the sticky header creating all sections and setting its css rules.
+     * Init the sticky header container by emptyiing it and injecting the slots into it
      */
     this.init = function() {
-      if ($(selector).find('[' + opts.headerContainerAttribute + ']').length === 0) {
-        $(selector).empty();
-      }
-      $(selector).attr(opts.headerAttribute, '').hide();
+      $(selector).empty();
 
       for (var i = 0; i < 3; i++) {
-        if ($(selector).find('[' + opts.headerContainerAttribute + ']').length) {
-          $(selector).find('[' + opts.headerContainerAttribute + ']').append("<div></div>");
-        }
-        else {
-          $(selector).append("<div></div>");
-        }
+        $(selector).append('<div></div>');
       }
     };
   };
@@ -234,8 +256,8 @@
      * @param {Object} header
      * @returns {boolean}
      */
-    this.isHidden = function(window, header) {
-      return $(window).scrollTop() > $(selector).offset().top;
+    this.isHidden = function(window, headerContainer) {
+      return $(window).scrollTop() > $(selector).offset().top - headerContainer.getTopPaddings();
     };
 
     /**
