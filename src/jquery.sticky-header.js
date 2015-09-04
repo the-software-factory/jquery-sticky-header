@@ -80,12 +80,14 @@
       // and triggers scroll event so the header is repopulated with the elements
       // from the next view (is any of them are hidden)
       window.onhashchange = function() {
-        function itemRemover() {
-          header.remove(new $.fn.stickyHeader.Item($(this), _opts));
-        }
+        var slots = header.getSlots().toArray();
 
-        for(var i = 0; i < 3; i++) {
-          $(header.getSlot(i)).children().each(itemRemover);
+        for (var slotId in slots) {
+          var items = $(slots[slotId]).find("> *").toArray();
+
+          for (var itemId in items) {
+            header.remove(new $.fn.stickyHeader.Item(items[itemId], _opts));
+          }
         }
 
         $(window).scroll();
@@ -181,6 +183,20 @@
       // The plugin was initialized on the container without [data-sticky-header-container] child
       else {
         return $(selector).children().get(index);
+      }
+    };
+
+    /**
+     * Returns all the header slots
+     *
+     * @return {Object}
+     */
+    this.getSlots = function() {
+      if ($(selector).find('[' + opts.headerContainerAttribute + ']').length === 0) {
+        return $(selector).find('> div');
+      }
+      else {
+        return $(selector).find('[' + opts.headerContainerAttribute + ']').find("> div");
       }
     };
 

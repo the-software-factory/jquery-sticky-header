@@ -3,11 +3,19 @@ describe("jQuery Sticky Header item tests", function() {
   var fixtureHtml = "<span>test</span>";
   var fixture = '<button data-sticky-header-item=\'{"position": "L", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
 
+  var options = {
+    headerAttribute: 'data-sticky-header',
+    headerContainerAttribute: 'data-sticky-header-container',
+    itemAttribute: 'data-sticky-header-item',
+    itemRemovedAttribute: 'data-sticky-header-item-removed',
+    itemIdAttribute: 'data-sticky-header-item-id'
+  };
+
   beforeEach(function() {
     $("header").remove();
     $(".container").remove();
 
-    $("body").append("<header><div data-sticky-header-container></div></header>");
+    $("body").append("<header><div " + options.headerContainerAttribute + "></div></header>");
     $("body").append("<div class='container'></div>");
 
     $(".container").append(fixture);
@@ -24,7 +32,7 @@ describe("jQuery Sticky Header item tests", function() {
   it("isHidden", function() {
     // Visible item
     var header = new $.fn.stickyHeader.Container($("header"));
-    var item = new $.fn.stickyHeader.Item($("[data-sticky-header-item]"));
+    var item = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]"));
     $(window).scroll();
     header.add(item);
 
@@ -42,27 +50,27 @@ describe("jQuery Sticky Header item tests", function() {
 */
 
   it("setId method.", function() {
-    var item = new $.fn.stickyHeader.Item($("[data-sticky-header-item]"));
+    var item = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]"), options);
     item.setId("testId");
 
-    expect($("[data-sticky-header-item]").first().attr("data-sticky-header-item-id")).toBeDefined();
+    expect($("[" + options.itemAttribute + "]").first().attr(options.itemIdAttribute)).toBeDefined();
   });
 
   it("getId method.", function() {
-    $("[data-sticky-header-item]").first().attr("data-sticky-header-item-id", "123");
-    var item = new $.fn.stickyHeader.Item($("[data-sticky-header-item]"));
+    $("[" + options.itemAttribute + "]").first().attr(options.itemIdAttribute, "123");
+    var item = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]"), options);
 
     expect(item.getId()).toBe("123");
   });
 
   it("getPosition method.", function() {
-    var item = new $.fn.stickyHeader.Item($("[data-sticky-header-item]"));
+    var item = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]"), options);
 
     expect(item.getPosition()).toBe("L");
   });
 
   it("getHtml method.", function() {
-    var item = new $.fn.stickyHeader.Item($("[data-sticky-header-item]"));
+    var item = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]"), options);
 
     expect(item.getHtml()).toBe("<span>test</span>");
   });
