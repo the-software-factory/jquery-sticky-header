@@ -1,5 +1,16 @@
-<a name="0.5.0"></a>
-# [0.5.0](//compare/0.5.0...v0.5.0) (2015-09-04)
+<a name="0.6.0"></a>
+# [0.6.0](//compare/0.6.0...v0.6.0) (2015-09-04)
+
+
+### Features
+
+* Container code improved, Elements are considered hidden when they reach their in-header height, Tests updated, Comments added, Gruntfile updated f96d7d2
+* Tests updated, Code adjustments 0565a68
+
+
+
+<a name="0.6.0"></a>
+# [0.6.0](//compare/0.5.0...0.6.0) (2015-09-04)
 
 
 ### Bug Fixes
@@ -9,7 +20,7 @@
 ### Features
 
 * Custom options implemented, Selectors made parametric, Stylesheet updated, README updated 49f1369
-* Tests updated, Code adjustments 0565a68
+* Released version 0.6.0 6046f78
 * Version 0.5.0 released 4e37807
 
 
