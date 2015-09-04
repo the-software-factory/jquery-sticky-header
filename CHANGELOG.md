@@ -1,5 +1,5 @@
 <a name="0.5.0"></a>
-# [0.5.0](//compare/0.5.0...v0.5.0) (2015-09-03)
+# [0.5.0](//compare/0.5.0...v0.5.0) (2015-09-04)
 
 
 ### Bug Fixes
@@ -9,6 +9,7 @@
 ### Features
 
 * Custom options implemented, Selectors made parametric, Stylesheet updated, README updated 49f1369
+* Tests updated, Code adjustments 0565a68
 * Version 0.5.0 released 4e37807
 
 
