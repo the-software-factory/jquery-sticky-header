@@ -16,15 +16,17 @@
 }
 
 [data-sticky-header] [data-sticky-header-container] {
+  display: flex;
   height: 100%;
+  width: 100%;
   overflow: hidden;
 }
 
 [data-sticky-header] [data-sticky-header-container] > div {
   display: inline-block;
   vertical-align: middle;
-  /* TODO Each section should be flex */
-  width: 33.333333%;
+  flex-grow: 1;
+  align-items: center;
 }
 
 [data-sticky-header] [data-sticky-header-container] > div > * {

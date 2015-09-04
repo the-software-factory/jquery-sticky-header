@@ -79,6 +79,11 @@ The available options are:
     + Default: `data-sticky-header-container`
     + Description: If you want to add an extra container to the root header container, mark it with this attribute
 
+* headerSlotPositionAttribute
+    + Type: `String`
+    + Default: `data-sticky-header-slot-position`
+    + Description: Every slot has this attribute set up indicating its position in the header container. It can be 'L', 'C' or 'R'.
+
 * itemAttribute
     + Type: `String`
     + Default: `data-sticky-header-item`

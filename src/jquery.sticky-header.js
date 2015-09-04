@@ -37,11 +37,10 @@
       }
 
       // Initializes the header container
+      $('[' + _opts.headerContainerAttribute + ']').empty();
       var headerContainer = new $.fn.stickyHeader.Container(
         $('[' + _opts.headerContainerAttribute + ']'), _opts
       );
-
-      headerContainer.init();
 
       $(window).scroll(function() {
         $('[' + _opts.itemAttribute + ']').each(function() {
@@ -133,19 +132,11 @@
      * @param {Object} item An instance of Item
      */
     this.add = function(item) {
-      var slot;
+      var position = item.getPosition();
 
-      switch (item.getPosition()) {
-        case 'R':
-          slot = this.getSlot(2);
-          break;
-        case 'C':
-          slot = this.getSlot(1);
-          break;
-        default:
-        case 'L':
-          slot = this.getSlot(0);
-          break;
+      // If the slot has not been created yet, do it now
+      if (this.getSlot(position).length === 0) {
+        this.addSlot(position);
       }
 
       var element = $(item.getHtml()).removeAttr(opts.itemAttribute);
@@ -155,10 +146,10 @@
       }
 
       if (item.getPosition() === 'R') {
-        $(slot).prepend(element);
+        $(this.getSlot(position)).prepend(element);
       }
       else {
-        $(slot).append(element);
+        $(this.getSlot(position)).append(element);
       }
 
       $(selector).parents().find('[' + opts.headerAttribute + ']').show();
@@ -212,13 +203,53 @@
     };
 
     /**
+     * Adds a new slot to the header container in the desired position
+     *
+     * @param  {number} position Slot position, may be 'L', 'C' or 'R'
+     */
+
+    this.addSlot = function(position) {
+      // The left slot will be always prepended before all the others
+      if (position === 'L') {
+        $(selector).prepend('<div ' + opts.headerSlotPositionAttribute + '="L"></div>');
+      }
+      // The right slot will be always appended after all the others
+      else if (position === 'R') {
+        $(selector).append('<div ' + opts.headerSlotPositionAttribute + '="R"></div>');
+      }
+      else {
+        // Builds the central slot element
+        var centralDiv = $('<div ' + opts.headerSlotPositionAttribute + '="C"></div>');
+
+        // If there is already a left slot, append the central one right after it and then create the right slot
+        if (this.getSlot('L').length === 1) {
+          centralDiv.insertAfter($(selector).find('[' + opts.headerSlotPositionAttribute + '="L"]'));
+          if(this.getSlot('R').length === 0) {
+            this.addSlot('R');
+          }
+        }
+        // If there is already a right slot, prepend the central one right before it and then create the left slot
+        else if (this.getSlot('R').length === 1) {
+          centralDiv.insertBefore($(selector).find('[' + opts.headerSlotPositionAttribute + '="R"]'));
+          if(this.getSlot('L').length === 0) {
+            this.addSlot('L');
+          }
+        }
+        // If there are no slots yet, just add the right one to the container
+        else {
+          $(selector).append(centralDiv);
+        }
+      }
+    };
+
+    /**
      * Returns the slot of the header by index.
      *
      * @param {number} index
      * @returns {Object}
      */
-    this.getSlot = function(index) {
-      return $(selector).children().get(index);
+    this.getSlot = function(position) {
+      return $(selector).find('[' + opts.headerSlotPositionAttribute + '=' +  position + ']');
     };
 
     /**
@@ -228,17 +259,6 @@
      */
     this.getSlots = function() {
       return $(selector).children();
-    };
-
-    /**
-     * Init the sticky header container by emptyiing it and injecting the slots into it
-     */
-    this.init = function() {
-      $(selector).empty();
-
-      for (var i = 0; i < 3; i++) {
-        $(selector).append('<div></div>');
-      }
     };
   };
 
@@ -332,6 +352,12 @@
      * @default 'data-sticky-header-container'
      */
     headerContainerAttribute: 'data-sticky-header-container',
+
+    /**
+     * @type {string}
+     * @default 'data-sticky-header-slot-id'
+     */
+    headerSlotPositionAttribute: 'data-sticky-header-slot-position',
 
     /**
      * @type {string}
