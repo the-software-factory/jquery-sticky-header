@@ -3,14 +3,6 @@ describe("jQuery Sticky Header item tests", function() {
   var fixtureHtml = "<span>test</span>";
   var fixture = '<button data-sticky-header-item=\'{"position": "L", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
 
-  var options = {
-    headerAttribute: 'data-sticky-header',
-    headerContainerAttribute: 'data-sticky-header-container',
-    itemAttribute: 'data-sticky-header-item',
-    itemRemovedAttribute: 'data-sticky-header-item-removed',
-    itemIdAttribute: 'data-sticky-header-item-id'
-  };
-
   beforeEach(function() {
     $("header").remove();
     $(".container").remove();
@@ -70,8 +62,34 @@ describe("jQuery Sticky Header item tests", function() {
   });
 
   it("getHtml method.", function() {
+    // Custom HTML was specified
     var item = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]"), options);
 
     expect(item.getHtml()).toBe("<span>test</span>");
+
+    // Custom HTML was not specified
+    $(".container").append('<button ' + options.itemAttribute + '="{}" nohtml>button</button>');
+    var anotherItem = new $.fn.stickyHeader.Item($("[nohtml]"), options);
+
+    expect($("[nohtml]").wrap("<div />").parent().html()).toBe(anotherItem.getHtml().wrap("<div />").parent().html());
+  });
+
+  it("isRemoved method.", function() {
+    var item = new $.fn.stickyHeader.Item($("<div></div>"), options);
+
+    expect(item.isRemoved()).toBe(false);
+
+    var anotherItem = new $.fn.stickyHeader.Item($("<div></div>").attr(options.itemRemovedAttribute, "1"), options);
+
+    expect(anotherItem.isRemoved()).toBe(true);
+  });
+
+  it("setAsRemoved method.", function() {
+    var element = $("<div></div>");
+    var item = new $.fn.stickyHeader.Item(element, options);
+
+    item.setAsRemoved();
+
+    expect(element.attr(options.itemRemovedAttribute)).toBe("1");
   });
 });

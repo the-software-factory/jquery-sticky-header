@@ -5,7 +5,7 @@ module.exports = function (config) {
         files: [
             'bower_components/jquery/dist/jquery.min.js',
             'dist/jquery.sticky-header.min.js',
-
+            'test/plugin-options.js',
             // Unit tests
             'test/src/*.test.js'
         ],

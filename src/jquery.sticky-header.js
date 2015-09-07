@@ -132,7 +132,7 @@
      * @param {Object} item An instance of Item
      */
     this.add = function(item) {
-      var position = item.getPosition();
+      var position = (typeof item.getPosition() === 'undefined') ? 'L' : item.getPosition();
 
       // If the slot has not been created yet, do it now
       if (this.getSlot(position).length === 0) {
@@ -145,9 +145,11 @@
         element.attr(opts.itemIdAttribute, item.getId());
       }
 
+      // If the target slot is the right one then prepend the item to it
       if (item.getPosition() === 'R') {
         $(this.getSlot(position)).prepend(element);
       }
+      // Otherwise (left or center slots case) append the item to the target slot
       else {
         $(this.getSlot(position)).append(element);
       }
@@ -179,7 +181,7 @@
 
       // Iterates through parents untill it reaches the header
       for (var i = 0; i < elements.length; i++) {
-        topPaddings += Number.parseInt(
+        topPaddings +=  parseInt(
           $(elements[i]).css('padding-top').replace('px', '')
         );
 
@@ -314,7 +316,7 @@
      */
     this.getHtml = function() {
       var options = JSON.parse($(selector).attr(opts.itemAttribute));
-      return typeof options.html === "string" ? options.html : $(selector).clone(true).get();
+      return typeof options.html === "string" ? options.html : $(selector).clone(true);
     };
 
     /**
