@@ -1,6 +1,10 @@
 <a name="0.6.0"></a>
-# [0.6.0](//compare/0.6.0...v0.6.0) (2015-09-04)
+# [0.6.0](//compare/0.6.0...v0.6.0) (2015-09-07)
 
+
+### Bug Fixes
+
+* Tests updated, Minor code fixes d42f9ee
 
 ### Features
 
