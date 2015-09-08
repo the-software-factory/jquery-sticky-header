@@ -66,7 +66,24 @@ module.exports = function(grunt) {
             options: {
                 changelogOpts: {
                     preset: 'jshint',
-                    releaseCount: 0
+                    releaseCount: 0,
+                    transform: function(commit, cb) {
+                      if (typeof commit.gitTags === 'string') {
+                        var rtag = /tag:\s*[v=]?(.+?)[,\)]/gi;
+                        var match = rtag.exec(commit.gitTags);
+                        rtag.lastIndex = 0;
+
+                        if (match) {
+                          commit.version = match[1];
+                        }
+                      }
+
+                      commit.shortDesc += " [" + commit.hash.slice(0, 7) +
+                        "](https://github.com/the-software-factory/jquery-sticky-header/commit/" + commit.hash + ")";
+                      delete commit.hash;
+
+                      cb(null, commit);
+                    }
                 }
             },
             release: {
