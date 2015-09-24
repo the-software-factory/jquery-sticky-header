@@ -1,10 +1,11 @@
 <a name="0.6.0"></a>
-# [0.6.0](//compare/0.6.0...v0.6.0) (2015-09-08)
+# [0.6.0](//compare/0.6.0...v0.6.0) (2015-09-24)
 
 
 ### Bug Fixes
 
 * Changelog hashes are now clickable links to respective GitHub pages [ed82099](https://github.com/the-software-factory/jquery-sticky-header/commit/ed82099eaff385f0c955b2e0f193d3a2ac3ce623) 
+* Sticky header jump bug fixed, header slots' content alignment fixed [60154de](https://github.com/the-software-factory/jquery-sticky-header/commit/60154de6ef727b5af65044898452dad289329955) 
 * Tests updated, Minor code fixes [d42f9ee](https://github.com/the-software-factory/jquery-sticky-header/commit/d42f9eefccefebda210f43e5899f7e6e9023bddb) 
 
 ### Features
