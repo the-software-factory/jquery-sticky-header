@@ -175,8 +175,17 @@
      * @return {Number} Total top padding
      */
     this.getTopPaddings = function() {
+      // If no slot was created yet then we need a dummy one as a child of the sticky header container
+      if ($(selector).children().length === 0) {
+        $(selector).append($('<div></div>').attr('id', 'dummy-slot'));
+      }
+
       // Considers the header container element too
       var elements = $(selector).children().first().parents();
+
+      // Remove the eventually inserted dummy slot since we've got all the necessary element to calculate top paddings
+      $(selector).find('[id=dummy-slot]').remove();
+
       var topPaddings = 0;
 
       // Iterates through parents untill it reaches the header

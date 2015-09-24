@@ -33,10 +33,10 @@
   vertical-align: middle;
 }
 
-[data-sticky-header] [data-sticky-header-container] > div:nth-of-type(2) {
+[data-sticky-header] [data-sticky-header-container] [data-sticky-header-slot-position=C] {
   text-align: center;
 }
 
-[data-sticky-header] [data-sticky-header-container] > div:nth-of-type(3) {
+[data-sticky-header] [data-sticky-header-container] [data-sticky-header-slot-position=R] {
   text-align: right;
 }
