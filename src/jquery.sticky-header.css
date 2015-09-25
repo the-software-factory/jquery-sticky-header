@@ -16,6 +16,7 @@
 }
 
 [data-sticky-header] [data-sticky-header-container] {
+  align-items: center;
   display: flex;
   height: 100%;
   width: 100%;
@@ -23,10 +24,7 @@
 }
 
 [data-sticky-header] [data-sticky-header-container] > div {
-  display: inline-block;
-  vertical-align: middle;
   flex-grow: 1;
-  align-items: center;
 }
 
 [data-sticky-header] [data-sticky-header-container] > div > * {
