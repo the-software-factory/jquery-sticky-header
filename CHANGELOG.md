@@ -1,11 +1,25 @@
 <a name="0.8.0"></a>
-# [0.8.0](//compare/0.8.0...v0.8.0) (2015-09-25)
+# [0.8.0](//compare/0.8.0...v0.8.0) (2015-10-14)
 
+
+### Features
+
+* Display levels management added to the header slots [21cf7fe](https://github.com/the-software-factory/jquery-sticky-header/commit/21cf7fe30defae7521368a614a4621d5d6039739) 
 
 
 
 <a name="0.8.0"></a>
-# [0.8.0](//compare/0.6.0...0.8.0) (2015-09-25 16:16:34 +0200)
+# [0.8.0](//compare/0.7.0...0.8.0) (2015-09-25 16:16:34 +0200)
+
+
+### Bug Fixes
+
+* Vertically centered items [1c42373](https://github.com/the-software-factory/jquery-sticky-header/commit/1c423732b27063f26d9f4f4127e5ed57f3445986) 
+
+
+
+<a name="0.7.0"></a>
+# [0.7.0](//compare/0.6.0...0.7.0) (2015-09-24 12:48:13 +0200)
 
 
 ### Bug Fixes
@@ -13,7 +27,6 @@
 * Changelog hashes are now clickable links to respective GitHub pages [ed82099](https://github.com/the-software-factory/jquery-sticky-header/commit/ed82099eaff385f0c955b2e0f193d3a2ac3ce623) 
 * Sticky header jump bug fixed, header slots' content alignment fixed [60154de](https://github.com/the-software-factory/jquery-sticky-header/commit/60154de6ef727b5af65044898452dad289329955) 
 * Tests updated, Minor code fixes [d42f9ee](https://github.com/the-software-factory/jquery-sticky-header/commit/d42f9eefccefebda210f43e5899f7e6e9023bddb) 
-* Vertically centered items [1c42373](https://github.com/the-software-factory/jquery-sticky-header/commit/1c423732b27063f26d9f4f4127e5ed57f3445986) 
 
 ### Features
 
@@ -25,20 +38,32 @@
 
 
 <a name="0.6.0"></a>
-# [0.6.0](//compare/0.4.0...0.6.0) (2015-09-04 10:25:18 +0200)
+# [0.6.0](//compare/0.5.0...0.6.0) (2015-09-04 10:25:18 +0200)
 
 
 ### Bug Fixes
 
 * itemAttribtue removal before insertion fixed, Observer target selector optimized [8a0c322](https://github.com/the-software-factory/jquery-sticky-header/commit/8a0c32299413e0755da320d8b5830f3d7761383c) 
-* Plugin won't work without the [data-sticky-header-container] element inside the root container bug fixed, README updated, bower.json updated [57079ba](https://github.com/the-software-factory/jquery-sticky-header/commit/57079bac0311689d83f42ea97e91c4b6a775e83e) 
 
 ### Features
 
 * Custom options implemented, Selectors made parametric, Stylesheet updated, README updated [49f1369](https://github.com/the-software-factory/jquery-sticky-header/commit/49f136982b6df410d9f68aa1849c5337dead7ae8) 
-* Element addition to header point changed, Grunt banner options corrected, Remove header elements on hash change added [ea75719](https://github.com/the-software-factory/jquery-sticky-header/commit/ea75719b241f25f36527200d24cb3d5ae9518e98) 
 * Released version 0.6.0 [6046f78](https://github.com/the-software-factory/jquery-sticky-header/commit/6046f78ca2bafd0d16ec34b2f9cec0ddbaf3d9fb) 
 * Version 0.5.0 released [4e37807](https://github.com/the-software-factory/jquery-sticky-header/commit/4e37807153d28705959f8bd8b3b3c4f70a52115d) 
+
+
+
+<a name="0.5.0"></a>
+# [0.5.0](//compare/0.4.0...0.5.0) (2015-09-02 18:17:36 +0200)
+
+
+### Bug Fixes
+
+* Plugin won't work without the [data-sticky-header-container] element inside the root container bug fixed, README updated, bower.json updated [57079ba](https://github.com/the-software-factory/jquery-sticky-header/commit/57079bac0311689d83f42ea97e91c4b6a775e83e) 
+
+### Features
+
+* Element addition to header point changed, Grunt banner options corrected, Remove header elements on hash change added [ea75719](https://github.com/the-software-factory/jquery-sticky-header/commit/ea75719b241f25f36527200d24cb3d5ae9518e98) 
 
 
 
