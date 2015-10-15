@@ -1,10 +1,11 @@
 <a name="0.8.0"></a>
-# [0.8.0](//compare/0.8.0...v0.8.0) (2015-10-14)
+# [0.8.0](//compare/0.8.0...v0.8.0) (2015-10-15)
 
 
 ### Features
 
 * Display levels management added to the header slots [21cf7fe](https://github.com/the-software-factory/jquery-sticky-header/commit/21cf7fe30defae7521368a614a4621d5d6039739) 
+* Unit tests added for the Display Level Manager and updated for the Container and Item [57061fb](https://github.com/the-software-factory/jquery-sticky-header/commit/57061fbda2cdab44a596af81f5236d081204a16b) 
 
 
 
