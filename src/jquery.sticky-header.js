@@ -10,7 +10,6 @@
    * @return {selector}
    */
   $.fn.stickyHeader = function(options) {
-
     /**
      * Extends default options with those provided.
      *
@@ -67,10 +66,12 @@
                     return;
                   }
 
-                  // Remove an eventual header element that corresponds to the one removed from DOM and set the item as removed
-                  if (headerContainer.has(item)) {
+                  // Remove an eventual header element that corresponds to the one removed from DOM, set the item as removed
+                  // and stop tracking it in the display levels manager
+                  if (headerContainer.has(item) || displayLevelManager.isInLowerDisplayLevels(item)) {
                     item.setAsRemoved();
                     headerContainer.remove(item);
+                    displayLevelManager.removeItem(item);
                   }
                 }
               });
@@ -151,9 +152,9 @@
         element.attr(opts.itemIdAttribute, item.getId());
       }
 
-      // Creates a new display level if item requires it and it doesn't belong to the current display level
+      // Creates a new display level if item requires it and it wasn't already created
       // This will remove all the items previously present in the header slot relative to the item
-      if (item.requiresNewDisplayLevel() && !displayLevelManager.isInCurrentDisplayLevel(item)) {
+      if (item.requiresNewDisplayLevel() && displayLevelManager.canCreateDisplayLevel(item)) {
         displayLevelManager.goToNextDisplayLevel(position);
       }
 
@@ -415,29 +416,28 @@
     };
 
     /**
-     * Saves the item IDs that are currently present in the specified slot in removedItems,
+     * Saves the item IDs that are currently present in the specified slot,
      * removes them from the slot and sets the next display level
      *
      * @param  {string} slot A slot to which we want to add another level
      */
     this.goToNextDisplayLevel = function(slot) {
+      var currentDisplayLevel = currentDisplayLevels[slot];
+      var slotRemovedItems = removedItems[slot];
+
+      slotRemovedItems[currentDisplayLevel] = [];
+
       // Gets the sticky header items present in the specified slot
       $(selector)
         .find('[' + opts.headerSlotPositionAttribute + '=' +  slot + ']')
         .find('[' + opts.itemIdAttribute + ']')
         .each(function(index, item) {
           var slotItem = new $.fn.stickyHeader.Item(item, opts);
-          var currentDisplayLevel = currentDisplayLevels[slot];
-          var slotRemovedItems = removedItems[slot];
-
-          if (!Array.isArray(slotRemovedItems[currentDisplayLevel])) {
-            slotRemovedItems[currentDisplayLevel] = [];
-          }
 
           // Save the item ID in the current display level
           slotRemovedItems[currentDisplayLevel].push(slotItem.getId());
           // Remove the item from the header
-          this.remove();
+          $(this).remove();
       });
 
       // Sets the next display level
@@ -452,11 +452,8 @@
     this.goToPrevDisplayLevel = function(slot) {
       // If a previous level exists
       if (currentDisplayLevels[slot] > 0) {
-        // Remove the item IDs relative to the next level
-        // We want to keep the ones relative to the current level to tell that
-        // the items that will populate the slot after the $window.scroll() should not create a new display level
-        // even if specified as uniqe
-        removedItems[slot].splice([currentDisplayLevels[slot]] + 1, 1);
+        // Remove the item IDs relative to the current level
+        removedItems[slot].splice(currentDisplayLevels[slot], 1);
         // Set the previous display level
         --currentDisplayLevels[slot];
         // Triggers the scroll event so the header gets repopulated with items of previous display level
@@ -465,10 +462,25 @@
     };
 
     /**
+     * Stops tracking the item
+     *
+     * @param  {Object} item A jQuery sticky header Item object
+     */
+    this.removeItem = function(item) {
+      removedItems[item.getPosition()].forEach(function(displayLevel) {
+        var index = displayLevel.indexOf(item.getId());
+
+        if (index >= 0) {
+          displayLevel.splice(index, 1);
+        }
+      });
+    };
+
+    /**
      * Checks whether the specified Item belongs to one of the lower display levels so we can
      * prevent their displaying (adding to the header)
      *
-     * @param  {Object} item The item we want to check
+     * @param  {Object} item The Item object we want to check
      * @return {boolean} `true` if the item belongs to one of the lower display levels, `false` otherwise
      */
     this.isInLowerDisplayLevels = function(item) {
@@ -484,21 +496,21 @@
     };
 
     /**
-     * Checks whether the specified Item belongs to the current display level so we know we don't need
-     * to create a new level for it, even if it requires a new display level. Useful when returning from the higher levels
+     * Checks whether the item was present in the current level after the eventual return from the higher level. If it was, then we shouldn't
+     * create a new level even if it requires it because it would cause the immediate return to the higher level.
      *
-     * @param  {Object} item The item we want to check
-     * @return {boolean} `true` if the item belongs to the current display level, `false` otherwise
+     * @param  {Object} item The Item object we want to check
+     * @return {boolean} `true` if the item can create a new display level, `false` otherwise
      */
-    this.isInCurrentDisplayLevel = function(item) {
+    this.canCreateDisplayLevel = function(item) {
       var slot = item.getPosition();
       var currentSlotRemovedItems = removedItems[slot][currentDisplayLevels[slot]];
 
       if (Array.isArray(currentSlotRemovedItems)) {
-        return currentSlotRemovedItems.indexOf(item.getId()) >= 0;
+        return currentSlotRemovedItems.indexOf(item.getId()) < 0;
       }
       else {
-        return false;
+        return true;
       }
     };
   };
