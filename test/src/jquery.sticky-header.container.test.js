@@ -1,6 +1,7 @@
 describe("jQuery Sticky Header container tests", function() {
   var fixtureHtml = "<span>test</span>";
   var fixture = '<button data-sticky-header-item=\'{"position": "L", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
+  var newDisplayLevelFixture = '<button data-sticky-header-item=\'{"position": "L", "newDisplayLevel": "true", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
   var headerContainer;
 
   beforeEach(function() {
@@ -14,7 +15,8 @@ describe("jQuery Sticky Header container tests", function() {
 
     $("header").stickyHeader();
 
-    headerContainer = new $.fn.stickyHeader.Container($("[" + options.headerContainerAttribute + "]"), options);
+    var displayLevelManager = new $.fn.stickyHeader.displayLevelManager($("[" + options.headerContainerAttribute + "]"), options);
+    headerContainer = new $.fn.stickyHeader.Container($("[" + options.headerContainerAttribute + "]"), options, displayLevelManager);
   });
 
   it("container object.", function() {
