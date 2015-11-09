@@ -154,6 +154,8 @@
         $(this.getSlot(position)).append(element);
       }
 
+      $(selector).trigger('stickyHeader.onElementAdd', element);
+
       $(selector).parents().find('[' + opts.headerAttribute + ']').show();
     };
 
