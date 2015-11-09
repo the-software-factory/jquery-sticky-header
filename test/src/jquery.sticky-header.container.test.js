@@ -93,7 +93,7 @@ describe("jQuery Sticky Header container tests", function() {
 
     // Setup the handler so we know whether the onElementAdd event was fired
     var eventFired = false;
-    $("[data-sticky-header-container]").on('stickyHeader.onElementAdd', function() {
+    $("[" + options.headerContainerAttribute + "]").on('stickyHeader.onElementAdd', function() {
         eventFired = true;
     });
 
