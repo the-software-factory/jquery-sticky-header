@@ -92,4 +92,14 @@ describe("jQuery Sticky Header item tests", function() {
 
     expect(element.attr(options.itemRemovedAttribute)).toBe("1");
   });
+
+  it("requiresNewDisplayLevel method.", function() {
+    var item1 = new $.fn.stickyHeader.Item(fixture, options);
+    var item2 = new $.fn.stickyHeader.Item(
+      $('<button data-sticky-header-item=\'{"newDisplayLevel": "true"}\'>Button 1</button>'), options
+    );
+
+    expect(item1.requiresNewDisplayLevel()).toBeFalsy();
+    expect(item2.requiresNewDisplayLevel()).toBeTruthy();
+  });
 });

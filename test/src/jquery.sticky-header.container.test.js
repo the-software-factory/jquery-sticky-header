@@ -1,6 +1,7 @@
 describe("jQuery Sticky Header container tests", function() {
   var fixtureHtml = "<span>test</span>";
   var fixture = '<button data-sticky-header-item=\'{"position": "L", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
+  var newDisplayLevelFixture = '<button data-sticky-header-item=\'{"position": "L", "newDisplayLevel": "true", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
   var headerContainer;
 
   beforeEach(function() {
@@ -14,7 +15,8 @@ describe("jQuery Sticky Header container tests", function() {
 
     $("header").stickyHeader();
 
-    headerContainer = new $.fn.stickyHeader.Container($("[" + options.headerContainerAttribute + "]"), options);
+    var displayLevelManager = new $.fn.stickyHeader.displayLevelManager($("[" + options.headerContainerAttribute + "]"), options);
+    headerContainer = new $.fn.stickyHeader.Container($("[" + options.headerContainerAttribute + "]"), options, displayLevelManager);
   });
 
   it("container object.", function() {
@@ -106,6 +108,16 @@ describe("jQuery Sticky Header container tests", function() {
     // The header is visible after the header item addition
     expect($("[" + options.headerAttribute + "]").is(":visible")).toBe(true);
 
+    // The items added to the left slot are appended to the right of existing elements
+    var secondItemL = $("[" + options.itemAttribute + "]").first().clone().removeAttr(options.itemIdAttribute);
+    secondItemL = new $.fn.stickyHeader.Item(secondItemL, options);
+    secondItemL.setId(12);
+    headerContainer.add(secondItemL);
+
+    expect($('[' + options.headerContainerAttribute + ']').children().first().find('[' + options.itemIdAttribute + '=1]').offset().left <
+            $('[' + options.headerContainerAttribute + ']').children().first().find('[' + options.itemIdAttribute + '=12]').offset().left)
+        .toBe(true);
+
     // Add to the CENTRAL slot
     var centralSlotHtml = ($("[" + options.itemAttribute + "]").first().clone().wrap("<div />").parent().html()).replace("L", "C");
     $(".container").append(centralSlotHtml);
@@ -113,6 +125,16 @@ describe("jQuery Sticky Header container tests", function() {
     var itemC = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]").eq(1), options);
     itemC.setId(2);
     headerContainer.add(itemC);
+
+    // The items added to the central slot are appended to the right of existing elements,
+    var secondItemC = $($("[" + options.itemAttribute + "]").first().clone().removeAttr(options.itemIdAttribute).wrap("<div />").parent().html().replace("L", "C"));
+    secondItemC = new $.fn.stickyHeader.Item(secondItemC, options);
+    secondItemC.setId(22);
+    headerContainer.add(secondItemC);
+
+    expect($('[' + options.headerContainerAttribute + ']').children().eq(1).find('[' + options.itemIdAttribute + '=2]').offset().left <
+            $('[' + options.headerContainerAttribute + ']').children().eq(1).find('[' + options.itemIdAttribute + '=22]').offset().left)
+        .toBe(true);
 
     // The header container now containes 3 slots as the right one was created to keep the central one really in center
     expect($('[' + options.headerContainerAttribute + ']').children().length).toBe(3);
@@ -122,7 +144,7 @@ describe("jQuery Sticky Header container tests", function() {
     expect($('[' + options.headerContainerAttribute + ']').children().eq(1).attr(options.headerSlotPositionAttribute)).toBe('C');
     expect($('[' + options.headerContainerAttribute + ']').children().eq(2).attr(options.headerSlotPositionAttribute)).toBe('R');
 
-    expect($("[" + options.headerContainerAttribute + "]").children().eq(1).children().length).toBe(1);
+    expect($("[" + options.headerContainerAttribute + "]").children().eq(1).children().length).toBe(2);
     expect($("[" + options.headerContainerAttribute + "]").children().eq(1).children().first().clone().wrap("<div>").parent().html())
       .toBe($(fixtureHtml).attr(options.itemIdAttribute, "2").clone().wrap("<div>").parent().html());
     expect($("[" + options.headerContainerAttribute + "]").children().eq(1).children().first().attr(options.itemIdAttribute)).toBeDefined();
@@ -145,6 +167,16 @@ describe("jQuery Sticky Header container tests", function() {
       .toBe($(fixtureHtml).attr(options.itemIdAttribute, "3").clone().wrap("<div>").parent().html());
     expect($("[" + options.headerContainerAttribute + "]").children().last().children().first().attr(options.itemIdAttribute)).toBeDefined();
     expect($("[" + options.headerAttribute + "]").is(":visible")).toBe(true);
+
+    // The items added to the right slot are appended to the right of existing elements,
+    var secondItemR = $($("[" + options.itemAttribute + "]").first().clone().removeAttr(options.itemIdAttribute).wrap("<div />").parent().html().replace("L", "R"));
+    secondItemR = new $.fn.stickyHeader.Item(secondItemR, options);
+    secondItemR.setId(32);
+    headerContainer.add(secondItemR);
+
+    expect($('[' + options.headerContainerAttribute + ']').children().last().find('[' + options.itemIdAttribute + '=3]').offset().left <
+            $('[' + options.headerContainerAttribute + ']').children().last().find('[' + options.itemIdAttribute + '=32]').offset().left)
+        .toBe(true);
 
     // Add an element without custom HTML specified and check if event listeners attached to it are copied too
     var element = $('<button ' + options.itemAttribute + '="{}">FooBar</button>');
