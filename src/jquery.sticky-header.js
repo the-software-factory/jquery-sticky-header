@@ -158,14 +158,8 @@
         displayLevelManager.goToNextDisplayLevel(position);
       }
 
-      // If the target slot is the right one then prepend the item to it
-      if (item.getPosition() === 'R') {
-        $(this.getSlot(position)).prepend(element);
-      }
-      // Otherwise (left or center slots case) append the item to the target slot
-      else {
-        $(this.getSlot(position)).append(element);
-      }
+      // Appends the item to the target slot
+      $(this.getSlot(position)).append(element);
 
       $(selector).parents().find('[' + opts.headerAttribute + ']').show();
     };
