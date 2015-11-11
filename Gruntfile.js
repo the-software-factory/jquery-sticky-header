@@ -5,6 +5,7 @@ var fs = require('fs');
 module.exports = function(grunt) {
 
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
         jshint: {
             all: ['Gruntfile.js', 'src/**/*.js', 'test/*.js', 'test/src/**/*.js']
         },
@@ -89,6 +90,25 @@ module.exports = function(grunt) {
             release: {
                 src: 'CHANGELOG.md'
             }
+        },
+        'grunt-release': {
+          options: {
+            additionalFiles: ['bower.json'],
+            beforeBump: ['test'],
+            afterBump: ['build'],
+            beforeRelease: ['gitadd:release'],
+            push: false,
+            pushTags: false,
+            npm: false,
+            commitMessage: "Application build v<%= version %>",
+            tagMessage: "Release v<%= version %>",
+            updateVars: ['pkg.version']
+          }
+        },
+        karma: {
+          unit: {
+            configFile: './test/test.config.js'
+          }
         }
     });
 
@@ -99,6 +119,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-devserver');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-conventional-changelog');
+    grunt.loadNpmTasks('grunt-release');
+    grunt.loadNpmTasks('grunt-check-clean');
+    grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask("emptyTheChangelog", function() {
         fs.truncateSync(grunt.config.get("conventionalChangelog.release.src"), 0);
@@ -127,7 +150,27 @@ module.exports = function(grunt) {
         });
     });
 
-    grunt.registerTask("default", ["jshint", "uglify", "cssmin", "usebanner"]);
+    grunt.registerTask('test', [
+        'jshint',
+        'karma:unit',
+    ]);
+
+    grunt.renameTask('release', 'grunt-release');
+    grunt.registerTask('release', function(version) {
+        version = version || '';
+        var ticket = grunt.option("case");
+        if (!ticket) {
+          grunt.fail.warn("Case number was not specified. Use --case ABC-XXX to specify a case.");
+        } else {
+          var cMsg = grunt.config.getRaw('grunt-release.options.commitMessage');
+          grunt.config('grunt-release.options.commitMessage', ticket + ': ' + cMsg);
+        }
+        grunt.task.run(['check_clean', 'test', 'grunt-release:' + version]);
+    });
+
+
+    grunt.registerTask("build", ["jshint", "uglify", "cssmin", "usebanner"]);
     grunt.registerTask("development", ["devserver", "watch"]);
     grunt.registerTask("changelog", ["emptyTheChangelog", "conventionalChangelog", "changelogCommit"]);
+    grunt.registerTask("default", "build");
 };
