@@ -37,7 +37,7 @@ module.exports = function(grunt) {
                         var lastYear = execSync("git log --format='%ai' | head -n 1").toString().split('-')[0];
 
                         return "/*\n" +
-                            " * jQuery Sticky Header v" + latestTag + " (https://github.com/the-software-factory/jquery-sticky-header)\n" +
+                            " * jQuery Sticky Header v" + grunt.config('pkg.version') + " (https://github.com/the-software-factory/jquery-sticky-header)\n" +
                             " * Copyright (c) " + ((firstYear === lastYear) ? firstYear : (firstYear + "-" + lastYear)) + " Vendini srl <vendini@pec.it>\n" +
                             " * Licensed under MIT (https://github.com/the-software-factory/jquery-sticky-header/blob/master/LICENSE.md)\n" +
                             " */";
@@ -92,23 +92,28 @@ module.exports = function(grunt) {
             }
         },
         'grunt-release': {
-          options: {
-            additionalFiles: ['bower.json'],
-            beforeBump: ['test'],
-            afterBump: ['build'],
-            beforeRelease: ['gitadd:release'],
-            push: false,
-            pushTags: false,
-            npm: false,
-            commitMessage: "Application build v<%= version %>",
-            tagMessage: "Release v<%= version %>",
-            updateVars: ['pkg.version']
-          }
+            options: {
+                additionalFiles: ['bower.json'],
+                beforeBump: ['test'],
+                afterBump: ['build'],
+                beforeRelease: ['gitadd:release'],
+                push: false,
+                pushTags: false,
+                npm: false,
+                commitMessage: "Application build v<%= version %>",
+                tagMessage: "Release v<%= version %>",
+                updateVars: ['pkg.version']
+            }
         },
         karma: {
-          unit: {
-            configFile: './test/test.config.js'
-          }
+            unit: {
+                configFile: './test/karma.conf.js'
+            }
+        },
+        gitadd: {
+            release: {
+                src: ["dist/"]
+            }
         }
     });
 
@@ -122,6 +127,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-release');
     grunt.loadNpmTasks('grunt-check-clean');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-git');
 
     grunt.registerTask("emptyTheChangelog", function() {
         fs.truncateSync(grunt.config.get("conventionalChangelog.release.src"), 0);

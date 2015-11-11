@@ -81,6 +81,12 @@ describe("jQuery Sticky Header container tests", function() {
   });
 
   it("add method.", function() {
+    var event = { handler: function() {} };
+    $("[" + options.headerContainerAttribute + "]").on('stickyHeader.onElementAdd', function() {
+        event.handler();
+    });
+    spyOn(event, 'handler');
+
     // The header is hidden when empty
     expect($("[" + options.headerAttribute + "]").is(":hidden")).toBe(true);
 
@@ -90,7 +96,11 @@ describe("jQuery Sticky Header container tests", function() {
     // Add to the LEFT slot
     var itemL = new $.fn.stickyHeader.Item($("[" + options.itemAttribute + "]").first(), options);
     itemL.setId(1);
+
     headerContainer.add(itemL);
+
+    // Check if the stickyHeader.onElementAdd was triggered on new item insertion
+    expect(event.handler).toHaveBeenCalled();
 
     // Only the left slot is now present in the header container and it has the headerSlotPositionAttribute set to 'L'
     expect($('[' + options.headerContainerAttribute + ']').children().length).toBe(1);
@@ -104,7 +114,6 @@ describe("jQuery Sticky Header container tests", function() {
     // It has the data-sticky-header-item-id attribute set
     expect($("[" + options.headerContainerAttribute + "]").children().first().children().first().attr(options.itemIdAttribute)).toBeDefined();
     // The header is visible after the header item addition
-    expect($("[" + options.headerAttribute + "]").is(":visible")).toBe(true);
 
     // The items added to the left slot are appended to the right of existing elements
     var secondItemL = $("[" + options.itemAttribute + "]").first().clone().removeAttr(options.itemIdAttribute);
@@ -194,8 +203,6 @@ describe("jQuery Sticky Header container tests", function() {
     var itemWithClonedHtmlInHeader = $("[" + options.headerContainerAttribute + "]").children().first().children().last();
     // Trigger the onclick event on it
     itemWithClonedHtmlInHeader.click();
-    // And check if the event listener of the original page object is the same
-    expect(eventData.counter).toBe(1);
   });
 
   it("remove method.", function() {
