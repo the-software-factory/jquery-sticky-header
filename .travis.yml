@@ -6,13 +6,9 @@ cache:
   directories:
     - ./node_modules
     - ./bower_components
-    - ./test/node_modules
 
 install:
   - npm install
-  - ./node_modules/bower/bin/bower  install
-  - cd test && npm install && cd ..
 
 script:
-  - cd test
-  - ./node_modules/karma/bin/karma start test.config.js
+  - ./node_modules/grunt-cli/bin/grunt test
