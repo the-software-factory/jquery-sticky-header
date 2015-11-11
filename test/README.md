@@ -17,21 +17,19 @@ The environment requires `npm`, install it from here if needed ([Guide for Insta
 
 ### Install all dependencies
 To install all modules you just need to follow these steps:
-- Go to `test`
-- Run `npm install`
+- Run `npm install` in the project's root folder
 
 For example:
 ```sh
-$ cd test
 $ npm install
 ```
+
 ## Running tests
 Follow these steps to run the tests suite:
-- Go to `test`
-- Run `karma start [config-file]`
+- Run `grunt test`
 
 For example:
 ```sh
 $ cd test
-$ ./node_modules/karma/bin/karma start test.config.js
+$ ./node_modules/grunt-cli/bin/grunt test
 ```
