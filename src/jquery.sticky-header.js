@@ -44,6 +44,7 @@
 
       $(window).scroll(function() {
         $('[' + _opts.itemAttribute + ']').each(function() {
+          var originalItem = this;
           var item = new $.fn.stickyHeader.Item(this, _opts);
 
           if (!item.getId()) {
@@ -91,7 +92,7 @@
           // If the item is NOT visible in the viewport, then add it in the header.
           else if (item.isHidden(window, headerContainer) &&
               !headerContainer.has(item)) {
-            headerContainer.add(item);
+            headerContainer.add(item, originalItem);
           }
         });
       });
@@ -130,8 +131,9 @@
      * Add a new item to the header.
      *
      * @param {Object} item An instance of Item
+     * @param {Object} originalElement The original sticky element from the page that created the `item`
      */
-    this.add = function(item) {
+    this.add = function(item, originalElement) {
       var position = (typeof item.getPosition() === 'undefined') ? 'L' : item.getPosition();
 
       // If the slot has not been created yet, do it now
@@ -148,7 +150,10 @@
       // Appends the item to the target slot
       $(this.getSlot(position)).append(element);
 
-      $(selector).trigger('stickyHeader.onElementAdd', element);
+      $(selector).trigger('stickyHeader.onElementAdd', {
+        headerElement: element,
+        originalElement: originalElement
+      });
 
       $(selector).parents().find('[' + opts.headerAttribute + ']').show();
     };
