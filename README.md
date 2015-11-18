@@ -54,11 +54,26 @@ data-sticky-header-item="{
 ```
 
 - `position` could be one of the following values: 'L' for left, 'C' for center and 'R' for right. It tells the plugin in which slot to place the element. If no position is specified then the default 'L' value will be used.
-- `html` is the representation of the related DOM element in the sticky header. If it's not defined, then the origin DOM element will be totally reproduced in the sticky header.
-- `newDisplayLevel` specifies whether a new display level should be created for the slot relative to the item. If a new display level is created for a slot than all the items present in it
-are removed and prevented from being inserted in it. As the display levels are added, only the items that belong to the top-most level are present in the slot. By returning to the previous
-display level the items that were present in it are allowed to populate the slot again. This mechanism allows you to build the header in which the items have an ascending priority as you
-scroll down. A display level can contain as much elements (not requiring a new level) as you want.
+- `html` is the representation of the related DOM element in the sticky header. If it's not defined, then the origin DOM element will be totally reproduced in the sticky header.  
+- `newDisplayLevel` specifies whether a new display level should be created for the item's target slot. Display levels is a mechanism that allows us to substitute the items currently present in the header slot with new ones as we scroll down, and restore the old items as we scroll up. It creates a stack of sets of elements, and only the topmost stack set's elements are visible.  
+Let's say you have the following sticky items (all having the same target slot) in your page (from topmost to bottommost): `[A] [B] [C+] [D] [E+]` where `+` marks items that require a new display level.
+As you scroll down, the header slot will contain the following items:
+  + [empty slot]
+  + [A]
+  + [A B]
+  + [C]
+  + [C D]
+  + [E]  
+You can see how the elements that require a new display level substitute the ones already present in the slot.
+The elements that does not require a new display level are then placed in the slot in the current display level.
+As you scroll up, the sticky header pops display levels from the stack and restores the items previously present in the header:
+  + [E]
+  + [C D]
+  + [C]
+  + [A B]
+  + [A]
+  + [empty slot]
+
 
 If you want to use the default Left slot and don't want to provide custom HMTL, you must still supply an empty JSON configuration object:
 ```html

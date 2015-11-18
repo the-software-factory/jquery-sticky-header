@@ -496,8 +496,8 @@
     };
 
     /**
-     * Checks whether the item was present in the current level after the eventual return from the higher level. If it was, then we shouldn't
-     * create a new level even if it requires it because it would cause the immediate return to the higher level.
+     * Checks whether the item can create a new display level: if we have previously returned from the higher display level
+     * then we shouldn't create one, as that would cause an immediate return to the higher level.
      *
      * @param  {Object} item The Item object we want to check
      * @return {boolean} `true` if the item can create a new display level, `false` otherwise

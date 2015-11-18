@@ -1,8 +1,7 @@
 describe("jQuery Sticky Header display level manager", function() {
 
-  var fixtureHtml = "<span>test</span>";
-  var fixture = '<button data-sticky-header-item=\'{"position": "L", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
-  var newDisplayLevelFixture = '<button data-sticky-header-item=\'{"position": "L", "newDisplayLevel": "true", "html": "' + fixtureHtml + '"}\'>Button 1</button>';
+  var fixture = '<button data-sticky-header-item=\'{"position": "L", "html": "<span>test</span>"}\'>Button 1</button>';
+  var newDisplayLevelFixture = '<button data-sticky-header-item=\'{"position": "L", "newDisplayLevel": "true", "html": "<span>test</span>"}\'>Button 1</button>';
 
   var headerContainer;
   var displayLevelManager;
