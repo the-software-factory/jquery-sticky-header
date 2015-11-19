@@ -1,5 +1,5 @@
 /*
- * jQuery Sticky Header v0.9.0 (https://github.com/the-software-factory/jquery-sticky-header)
+ * jQuery Sticky Header v0.10.0 (https://github.com/the-software-factory/jquery-sticky-header)
  * Copyright (c) 2015 Vendini srl <vendini@pec.it>
  * Licensed under MIT (https://github.com/the-software-factory/jquery-sticky-header/blob/master/LICENSE.md)
  */

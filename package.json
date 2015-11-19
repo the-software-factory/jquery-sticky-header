@@ -1,6 +1,6 @@
 {
   "name": "jquery-sticky-header",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Enables a sticky header to analize the page and to toggle inside of it all elements with the data-sticky-header attribute",
   "author": {
     "name": "Andrea Stronati",
