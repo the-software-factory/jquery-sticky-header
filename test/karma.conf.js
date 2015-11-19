@@ -4,7 +4,7 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'bower_components/jquery/dist/jquery.min.js',
-            'dist/jquery.sticky-header.min.js',
+            'src/jquery.sticky-header.js',
             'test/plugin-options.js',
             // Unit tests
             'test/src/*.test.js'

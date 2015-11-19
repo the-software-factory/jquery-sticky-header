@@ -144,11 +144,9 @@ test/
 ### Installation
 This project requires [node](https://nodejs.org/).
 
-Please run following commands to install all project's dependencies so you can build it and test it:
+Please run following command to install all project's dependencies so you can build it and test it:
 ```sh
 $ npm install
-$ ./node_modules/bower/bin/bower install
-$ cd test && npm install
 ```
 
 ### Grunt Tasks

@@ -1,6 +1,6 @@
 /*
- * jQuery Sticky Header v0.8.0 (https://github.com/the-software-factory/jquery-sticky-header)
+ * jQuery Sticky Header v0.9.0 (https://github.com/the-software-factory/jquery-sticky-header)
  * Copyright (c) 2015 Vendini srl <vendini@pec.it>
  * Licensed under MIT (https://github.com/the-software-factory/jquery-sticky-header/blob/master/LICENSE.md)
  */
-[data-sticky-header]{background:#f7f7f7;left:0;position:fixed;top:0;width:100%;z-index:999999}[data-sticky-header] [data-sticky-header-container]{align-items:center;display:flex;height:100%;width:100%;overflow:hidden}[data-sticky-header] [data-sticky-header-container]>div{flex-grow:1}[data-sticky-header] [data-sticky-header-container]>div>*{vertical-align:middle}[data-sticky-header] [data-sticky-header-container] [data-sticky-header-slot-position=C]{text-align:center}[data-sticky-header] [data-sticky-header-container] [data-sticky-header-slot-position=R]{text-align:right}
+[data-sticky-header]{background:#f7f7f7;left:0;position:fixed;top:0;width:100%;z-index:9999}[data-sticky-header] [data-sticky-header-container]{align-items:center;display:flex;height:100%;width:100%;overflow:hidden}[data-sticky-header] [data-sticky-header-container]>div{flex-grow:1}[data-sticky-header] [data-sticky-header-container]>div>*{vertical-align:middle}[data-sticky-header] [data-sticky-header-container] [data-sticky-header-slot-position=C]{text-align:center}[data-sticky-header] [data-sticky-header-container] [data-sticky-header-slot-position=R]{text-align:right}
