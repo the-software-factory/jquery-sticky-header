@@ -1,6 +1,6 @@
 {
   "name": "jquery-sticky-header",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Enables a sticky header to analize the page and to toggle inside of it all elements with the data-sticky-header attribute",
   "author": {
     "name": "Andrea Stronati",
@@ -20,6 +20,7 @@
     "grunt-banner": "^0.5.0",
     "grunt-check-clean": "0.1.1",
     "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^0.12.2",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-contrib-uglify": "^0.9.1",

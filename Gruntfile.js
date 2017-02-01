@@ -6,6 +6,16 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        concat: {
+            css: {
+                src: 'src/jquery.sticky-header.css',
+                dest: 'dist/jquery.sticky-header.css'
+            },
+            js: {
+                src: 'src/jquery.sticky-header.js',
+                dest: 'dist/jquery.sticky-header.js'
+            }
+        },
         jshint: {
             all: ['Gruntfile.js', 'src/**/*.js', 'test/*.js', 'test/src/**/*.js']
         },
@@ -44,7 +54,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    src: ['dist/jquery.sticky-header.min.js', 'dist/jquery.sticky-header.min.css']
+                    src: ['dist/jquery.sticky-header.min.js', 'dist/jquery.sticky-header.js', 'dist/jquery.sticky-header.min.css', 'dist/jquery.sticky-header.css']
                 }
             }
         },
@@ -117,6 +127,7 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
@@ -175,7 +186,7 @@ module.exports = function(grunt) {
     });
 
 
-    grunt.registerTask("build", ["jshint", "uglify", "cssmin", "usebanner"]);
+    grunt.registerTask("build", ["jshint", "uglify", "cssmin", "concat", "usebanner"]);
     grunt.registerTask("development", ["devserver", "watch"]);
     grunt.registerTask("changelog", ["emptyTheChangelog", "conventionalChangelog", "changelogCommit"]);
     grunt.registerTask("default", "build");
